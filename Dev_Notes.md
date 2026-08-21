@@ -27,7 +27,8 @@ Project Wave Checklist App Test/
     │   ├── Project_Documentation_Instructions.md    [The four-doc standard we follow]
     │   ├── PROJECT_INSTRUCTIONS.md                  [Original project brief]
     │   ├── ARCHITECTURE_REFERENCE.md                [Patterns from Project Orbit]
-    │   └── CENTIFIC_DESIGN_SYSTEM_01.md             [Centific visual brand]
+    │   ├── CENTIFIC_DESIGN_SYSTEM_01.md             [Centific visual brand]
+    │   └── App_Build_Workflow_and_Replication_Guide.md  [General build/deploy/Claude-workflow guide — backend section assumes Excel, see note below]
     │
     └── Project Kilo Files/
         ├── centific-kilo-design-system.md
@@ -41,6 +42,7 @@ Project Wave Checklist App Test/
 - **centific-kilo-design-system.md** — Visual tokens: colors (#EF43B3 pink accent, dark mode), spacing, typography. Use exactly.
 - **ARCHITECTURE_REFERENCE.md** — Project Orbit's backend patterns. Wave uses similar concepts (cloud sync, status logging, soft deletes) but with SharePoint Lists instead of Excel. Reference sections 7-9 for state management, Power Automate + backend patterns, and refresh architecture.
 - **PROJECT_INSTRUCTIONS.md** — Original brief. Updated to clarify Wave has backend (SharePoint Lists + Power Automate), unlike local-only Kilo.
+- **App_Build_Workflow_and_Replication_Guide.md** — General Centific playbook for these single-file apps: tech stack, deploy, Claude workflow, pre-ship QA, replication steps. **Known divergence**: its section 4-5 (the database and connectors) is written entirely around Excel tables on SharePoint (Excel Online actions, all-Text columns, 256-row pagination cap). Wave intentionally uses SharePoint Lists instead — see "SharePoint Lists + Power Automate backend" under Key decisions below for why. When following this guide's replication steps for Wave, substitute: "Get items" (SharePoint) for "List rows" (Excel), List column filters for Excel column filters, and native SharePoint column types where the guide says Text-only. Everything else in the guide (single-file HTML, version stamping, pre-ship QA checklist, dormant-until-wired URLs, deployment) applies to Wave as written.
 
 ---
 
