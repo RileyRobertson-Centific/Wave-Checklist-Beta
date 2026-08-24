@@ -50,21 +50,21 @@ Project Wave Checklist App Test/
 ## Current state
 
 ### Version
-**0.1.082426** (`APP_VERSION` in `app.html`). See `Changelog.md`.
+**0.2.082426** (`APP_VERSION` in `app.html`). See `Changelog.md`.
 
 ### Shipped (local-only skeleton)
 - [x] Frontend skeleton in `app.html` (Kilo tokens, login, app shell, menu, theme toggle, mobile layout)
 - [x] Sidebar: **Your Assigned Sessions**, date/time, type chip, participant short name, phase dots; completed sessions show a full-width pink **completed** pill. Desktop collapse-to-rail control (remembered).
-- [x] Session detail: three phases — **Device Prep**, **Session Checklist**, **Post-Session**. Notes + Complete session always visible on Post-Session; button disabled until `sessionComplete()`.
-- [x] Nested Session Checklist: protocol from `Session Checklist.xlsx`; title-only items on the main list; sequentially unlocked T1 → A1 → A2 → M1; six detailed checks under **Before Recording** / **After Recording** (headers + helper notes, not steps); desktop two-pane view and mobile drill-in
+- [x] Session detail: three phases — **Device Prep**, **Session Checklist**, **Post-Session**. Notes + Complete session always visible on Post-Session; Notes are required (helper: “Please describe how the session went and note anything out of the ordinary”); button disabled until `sessionComplete()` and notes are non-empty.
+- [x] Nested Session Checklist: protocol from `Session Checklist.xlsx`; title-only items on the main list (greet/IDs, NDA, **Claim new Task in Feather**, participant orientation, Hydra intake); sequentially unlocked T1 → A1 → A2 → M1 with protocol labels (Walking and tracking / Walking with Pose Transitions / Static presence and actions / Mixed actions and gestures); six detailed checks under **Before Recording** / **After Recording** (headers + helper notes, not steps); desktop two-pane view and mobile drill-in
 - [x] Login against placeholder Moderators. Client demo: `moderator` / `admin` (amber **Demo Version Logins** banner). No username prefill. Legacy: `riley.robertson`, `david.kang`, `wave.admin`
-- [x] Moderators only load/see sessions assigned to them (`sessionAssignedTo`). `moderator` sees the same four Redmond sessions as `riley.robertson`; Sarah M. and Michael C. / Lisa R. are pre-completed
-- [x] localStorage per username (`wave_session_v19_<username>`)
+- [x] Moderators only load/see sessions assigned to them (`sessionAssignedTo`). `moderator` sees every placeholder session (Redmond + Las Vegas), one per day Aug 23–29; the two sessions scheduled before Aug 25 are pre-completed, the rest are incomplete
+- [x] localStorage per username (`wave_session_v26_<username>`)
 - [x] Cloud sync **stubs**: `MODERATORS_READ_URL`, `SESSIONS_READ_URL`, `SESSIONS_WRITE_URL`, `SESSIONLOG_WRITE_URL` are `''`; reads fall back to placeholders; writes log to console
-- [x] Menu: **Logged in as: [username]**, Sign out, then placeholder reminders/troubleshooting
+- [x] Menu: placeholder page links (Checklist / Project Updates / Guidelines / Troubleshooting) with the current page marked by `.current` + `aria-current="page"` (hardcoded to Checklist until the other pages exist; chevron hidden on the current item), then Sign out, **Reset app (demo only)** with an amber outline (keeps the user signed in and restores placeholder checklists), then placeholder reminders and a **Latest Update** card (currently New SSDs, Aug 24, 2026). Username is in the top header (left of theme toggle, user icon to the right of the name).
 - [ ] Theme toggle is in the nav (works); not a separate “settings” panel
 - [ ] Reference media: steps may have `ref_media_id`; UI shows “not yet configured”
-- [ ] Menu reminders/troubleshooting are still placeholder copy
+- [ ] Menu reminders are still placeholder copy
 
 ### In Progress
 - Iterating the moderator UI for a client demo (Riley, this Cursor session). Backend not started.
@@ -79,7 +79,7 @@ Project Wave Checklist App Test/
 - Clearing leftover demo logins / placeholder roster before real users
 
 ### How to run locally
-Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` (dashboard). If the list looks stale, sign out or use a private window — storage key is currently `wave_session_v19_`.
+Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` (dashboard). If the list looks stale, sign out or use a private window — storage key is currently `wave_session_v26_`.
 
 ---
 
@@ -117,7 +117,7 @@ Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` 
 **Workflow definition:**
 - [x] Device Prep checklist (6 steps + condition notes) — landed in `app.html`
 - [x] Session Checklist (greet → NDA/consent → explain/rehearse → Hydra M1 / A1 / A2 / T1); greet/explain wording still differs by session type
-- [x] Post-Session checklist (Hydra ingestion, Feather task + metadata, TAR upload, pack/return)
+- [x] Post-Session checklist (Hydra ingestion while on X5 Wi-Fi, finish Feather metadata and mark task Completed, TAR upload, pack/return)
 - [ ] Identify reference media needs (clips/GIFs moderators will need)
 - [ ] Write key reminders for menu panel
 - [ ] Write troubleshooting tips
@@ -126,7 +126,7 @@ Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` 
 - [ ] Integrate reference media URLs (clips/GIFs embeddable in steps)
 - [ ] Add session type logic (different step sequences for single vs. paired)
 - [x] Build menu panel (reminders, troubleshooting table, settings)
-- [x] Add session completion form (notes only; Complete session gated on all steps)
+- [x] Add session completion form (notes required; Complete session gated on all steps + notes)
 - [ ] Test on iPhone + Android
 - [ ] Version bump to 0.2.MMDDYY
 
@@ -267,7 +267,7 @@ Flat phases (Device Prep and Post-Session) still use their existing simple step 
 
 **Phase header area**: The phase name is not repeated above the list — the segmented control is the only label. `.seg-control` carries `margin-bottom:43px`, which reproduces the old spacing (20px control margin + 11px label + 12px label margin); change it if the control or list padding changes. The selected segment uses `--seg-active`, a per-theme value deliberately darker than `--card-bg` so the selection reads at a glance.
 
-**Current Session Checklist structure**: Top-level title-only — greet/IDs, signed NDA, participant orientation, then Hydra intake after the Hydra note. Scenario groups T1, A1, A2, M1 unlock sequentially. Each has six detailed checks: three under **Before Recording** (orientation/placement/obstructions) and three under **After Recording** (video, audio, performance). Section headers are not steps. Helper notes under the headers (full-contrast body text): Before Recording — do the checks for every camera placement, then mark them finished when the whole recording is done; After Recording — use Hydra preview for the three checks and re-record if anything fails. The Hydra instruction on the main list uses the same pink header + white body style, titled **Hydra App**. Section titles match Hydra App exactly: 12.5px, weight 700, uppercase, pink. Keep the title in a `span` (`.child-section-title`), not a `strong` — a nested `strong` resolves `bolder` against the 700 parent and renders at 900, which is what made the scenario headers look heavier than Hydra. Empty right pane copy: “Select a Scenario” / “Subtasks will appear here.” Same copy for single and paired until we get type-specific wording. Do not change `key` fields casually—they will be written to SessionLog.
+**Current Session Checklist structure**: Top-level title-only — greet/IDs, signed NDA, claim new Task in Feather, participant orientation, then Hydra intake after the Hydra note. Scenario groups T1, A1, A2, M1 unlock sequentially (titles include the protocol labels). Each has six detailed checks: three under **Before Recording** (orientation/placement/obstructions) and three under **After Recording** (video, audio, performance). Section headers are not steps. Helper notes under the headers (full-contrast body text): Before Recording — do the checks for every camera placement, then mark them finished when the whole recording is done; After Recording — use Hydra preview for the three checks and re-record if anything fails. The Hydra instruction on the main list uses the same pink header + white body style, titled **Hydra App**. Section titles match Hydra App exactly: 12.5px, weight 700, uppercase, pink. Keep the title in a `span` (`.child-section-title`), not a `strong` — a nested `strong` resolves `bolder` against the 700 parent and renders at 900, which is what made the scenario headers look heavier than Hydra. Empty right pane copy: “Select a Scenario” / “Subtasks will appear here.” Same copy for single and paired until we get type-specific wording. Do not change `key` fields casually—they will be written to SessionLog.
 
 ---
 
@@ -299,7 +299,7 @@ Flat phases (Device Prep and Post-Session) still use their existing simple step 
 ---
 
 ### On-screen name is mmWave (for now)
-**Decision**: Nav and login brand say `mmWave`. Folder and docs still say Project Wave.
+**Decision**: Nav, login brand, and the menu version stamp say `mmWave` (e.g. `mmWave v0.2.082426`). Folder and docs still say Project Wave. The stamp is demo-only and will switch to the locked project name later.
 
 **Why**: Riley asked for this display name during skeleton work. Treat as temporary until a final product name is locked.
 
@@ -311,10 +311,10 @@ Flat phases (Device Prep and Post-Session) still use their existing simple step 
 **Current stand-ins:**
 | Username | Site | Sessions |
 |---|---|---|
-| `moderator` | Demo (Riley’s Redmond roster) | Same four Redmond sessions as `riley.robertson`; first two pre-completed |
+| `moderator` | Demo (all sites) | All seven placeholder sessions, one per day Aug 23–29; the two before Aug 25 are pre-completed |
 | `admin` | All | Demo dashboard (not a session list) |
-| `riley.robertson` | Redmond | 4 sessions, Aug 20–25 2026 (first two pre-completed) |
-| `david.kang` | Las Vegas | 3 sessions, Aug 20–26 2026 |
+| `riley.robertson` | Redmond | 4 sessions, Aug 23, 24, 26, 28 2026 (those before Aug 25 pre-completed) |
+| `david.kang` | Las Vegas | 3 sessions, Aug 25, 27, 29 2026 (all incomplete) |
 | `wave.admin` | All | Demo dashboard (same as `admin`) |
 
 Participants are the ten names from Riley’s `fake_contacts2.csv`, shown as first name + last initial (e.g. `Sarah M.`, paired `Michael C. / Lisa R.`).

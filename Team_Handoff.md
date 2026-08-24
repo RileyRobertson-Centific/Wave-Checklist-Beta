@@ -55,12 +55,12 @@ You're inheriting the Wave / **mmWave** moderator checklist (see `README.md` for
 #### Recurring maintenance tasks
 
 ##### Local testing (until SharePoint is live)
-- Open `app.html` in a browser. Demo logins (amber **Demo Version Logins** banner): `moderator` (checklist — Riley’s four Redmond sessions; Sarah M. and Michael C. / Lisa R. already completed), `admin` (dashboard). Legacy stand-ins `riley.robertson` and `david.kang` still work. Each moderator should only see their own sessions. If the list looks stale, sign out or use a private window (`wave_session_v18_`).
+- Open `app.html` in a browser. Demo logins (amber **Demo Version Logins** banner): `moderator` (checklist — all seven placeholder sessions, one per day Aug 23–29; the two sessions before Aug 25 are already completed), `admin` (dashboard). Legacy stand-ins `riley.robertson` and `david.kang` still work. Each moderator should only see their own sessions. If the list looks stale, sign out or use a private window (`wave_session_v26_`).
 
 ##### App content & workflow
 - **Update session steps**: If the data-collection protocol changes, update the session steps in the `SESSIONS` array and redeploy `app.html`. Test thoroughly before deploying.
-- **Update reminders**: If safety guidelines or best practices change, update the "Key Reminders" section in the menu panel and redeploy. Menu order is: logged-in username, Sign out, then reminders/troubleshooting.
-- **Update troubleshooting**: If new issues come up, add them to the troubleshooting table and redeploy.
+- **Update reminders**: If safety guidelines or best practices change, update the "Key Reminders" section in the menu panel and redeploy. Menu order is: placeholder page links (Checklist / Project Updates / Guidelines / Troubleshooting), Sign out, demo-only Reset app, then reminders and Latest Update. Reset app keeps the user signed in and restores placeholder checklist progress. The four page links are proof-of-concept only and do not navigate yet. The signed-in username is in the header bar, not the menu.
+- **Update Latest Update**: Replace the current menu card (New SSDs, Aug 24, 2026) with the newest project update and redeploy.
 - **Reference media updates**: If clips/GIFs need to be updated or added, upload to SharePoint Document Library and update ReferenceMedia list with new URLs.
 
 #### SharePoint Lists maintenance
@@ -137,7 +137,7 @@ The app expects exact column names and types in SharePoint Lists. If a column is
 Session Checklist tasks use stable `key` fields. Nested completion events will include both `parent_key` and `step_key`; changing keys after production data exists will fragment reporting.
 
 Current keys:
-- Top-level: `greet_confirm_ids`, `confirm_signed_nda`, `participant_orientation`, `complete_hydra_intake`
+- Top-level: `greet_confirm_ids`, `confirm_signed_nda`, `claim_new_feather_task`, `participant_orientation`, `complete_hydra_intake`
 - Scenario groups: `scenario_t1`, `scenario_a1`, `scenario_a2`, `scenario_m1`
 - Scenario checks: `{code}_{camera_orientation|camera_placement|camera_obstructions|video_check|audio_check|performance_check}`
 - Section headers: `{code}_before_recording`, `{code}_after_recording` (plus `note` helper copy; not checkable)
@@ -147,7 +147,7 @@ Current keys:
 - `before_recording` and `after_recording` are visual section headers, not checkable steps and not part of progress totals.
 - Title-only items on the main list and detailed scenario checks are the manually completed records.
 - Desktop uses a two-pane layout for scenario groups; title-only items toggle in place. Empty pane copy is “Select a Scenario” / “Subtasks will appear here.” Mobile uses drill-in only for scenario groups. Test both whenever task markup or CSS changes.
-- Post-Session always shows Notes and Complete session; the button stays disabled until every checkable step in all three phases is done.
+- Post-Session always shows Notes and Complete session; Notes are required. The button stays disabled until every checkable step in all three phases is done and notes are filled.
 - Desktop sidebar collapse is stored in `wave_sidebar_collapsed`.
 - Do not surface the words “parent” or “child” in the UI. Those names are internal only.
 

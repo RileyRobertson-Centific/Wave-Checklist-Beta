@@ -11,7 +11,7 @@ The working copy is a single file, `app.html`. SharePoint Lists and Power Automa
 - Sidebar of **assigned** sessions only (not a global “today” list); can collapse on desktop
 - Session detail with phased checklists (Device Prep / Session Checklist / Post-Session)
 - Step ticks saved locally; writes to SessionLog when flows are wired
-- Menu: who is signed in, sign out, reminders, troubleshooting; theme toggle is in the nav
+- Menu: placeholder page links (Checklist, Project Updates, Guidelines, Troubleshooting), sign out, demo Reset app, reminders, Latest Update; username and theme toggle are in the nav
 
 **Admin app (in `app.html` today):**
 - Sign in as `admin` (no password)
@@ -41,9 +41,9 @@ The working copy is a single file, `app.html`. SharePoint Lists and Power Automa
 
 ### For Moderators (current local build)
 1. Open `app.html` in a browser
-2. Sign in as `moderator` (amber demo banner). Same four Redmond sessions as `riley.robertson`; Sarah M. and Michael C. / Lisa R. are already completed
+2. Sign in as `moderator` (amber demo banner). All seven placeholder sessions appear, one per day (Aug 23–29); the two sessions before Aug 25 are already completed
 3. See **Your Assigned Sessions** in the sidebar
-4. Open a session, work through Device Prep → Session Checklist → Post-Session, then Complete session (button enables when all steps are done)
+4. Open a session, work through Device Prep → Session Checklist → Post-Session, then Complete session (button enables when all steps are done and notes are filled)
 5. When Power Automate is wired, step events and completion will sync to SharePoint
 
 **Typical flow**: Sign in → Assigned sessions → Open session → Tick steps → Mark complete → Repeat
@@ -99,7 +99,7 @@ If you're reopening this project in a new Claude chat:
 
 ## Version and status
 
-**Current version**: `0.1.082426` — details in `Changelog.md`  
+**Current version**: `0.2.082426` — details in `Changelog.md`  
 **Status**: Client-demo moderator UI with placeholder data; backend not wired. Details in `Dev_Notes.md`.
 
 For deployment instructions, see `Team_Handoff.md` → "Maintaining the application."

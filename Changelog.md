@@ -4,6 +4,25 @@ All notable changes to Project Wave are documented here. The version scheme is `
 
 ---
 
+## 0.2.082426
+
+**Status**: Client demo polish (everything since the last GitHub push of `0.1.082426`)
+
+### Major additions
+- `moderator` now sees **all seven** placeholder sessions (one per day, Aug 23–29), including Las Vegas copies. The two sessions scheduled before Aug 25 load completed; the rest are in progress. `admin` is unchanged. Legacy `riley.robertson` / `david.kang` / `wave.admin` still work.
+- Button added to menu: **Reset app (demo only)**. Keeps the user signed in and restores placeholder checklist ticks, notes, and session status.
+
+### Minor changes
+- Menu: placeholder page links (**Checklist**, **Project Updates**, **Guidelines**, **Troubleshooting**), then Sign out, then Reset app, then Key reminders and a **Latest Update** card (Aug 24, 2026 — New SSDs). The in-menu troubleshooting table is gone. Links do not navigate yet; **Checklist** is marked current (pink text, pink left bar, no chevron).
+- Username moved to the top header (left of theme toggle, user icon to the right). Menu no longer shows “Logged in as”.
+- Menu version stamp is **mmWave v…** (was **Wave v…**).
+- Third Session Checklist step is **Claim new Task in Feather**; **Participant orientation** follows it.
+- Scenario titles include protocol labels: T1 Walking and tracking, A1 Walking with Pose Transitions, A2 Static presence and actions, M1 Mixed actions and gestures.
+- Post-Session: first step is **Complete ingestion Hydra while still connected to X5 Wi-Fi**; metadata step is **Finish metadata entry in Feather and mark task as Completed**; last step is **Return and sign in equipment**. Notes are required (helper: “Please describe how the session went and note anything out of the ordinary”). Complete session stays disabled until every step is done and notes are filled.
+- localStorage key is `wave_session_v26_` so cached checklists pick up the current schema.
+
+---
+
 ## 0.1.082426
 
 **Status**: Client demo refinements
@@ -163,8 +182,8 @@ Before bumping the version number:
 **Example progression**:
 - `0.1.081726` → foundation setup
 - `0.1.081927` → login flow + welcome modal
-- `0.2.082018` → moderator checklist + session state
-- `0.2.082215` → admin dashboard
+- `0.1.082426` → first client-demo landing (last GitHub push of 0.1)
+- `0.2.082426` → client demo polish (seven-session moderator roster, menu, reset)
 - `1.0.082315` → first release (explicit milestone)
 
 The date segment gives you a glance at how fresh the code is.
