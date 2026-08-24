@@ -6,15 +6,15 @@
 
 ## Overview
 
-You're inheriting Project Wave, a moderator checklist app + admin dashboards for tracking data-collection progress toward a 100-hour video target. 
+You're inheriting the Wave / **mmWave** moderator checklist (see `README.md` for what the product is). Display name in the app is **mmWave** for now.
 
 **Architecture**:
-- **Frontend**: Single `.html` file (Kilo-style UI) deployed via GitHub Pages
-- **Backend**: SharePoint Lists + Power Automate flows (no database to manage)
-- **Moderators**: Sign in, see assigned sessions, work through step checklists, mark complete. All logged to SharePoint in real-time.
-- **Admins**: View progress dashboards (total hours, active sites/moderators, completion rate, trends)
+- **Frontend**: Single `app.html` (Kilo-style UI). `index.html` for GitHub Pages is not created yet.
+- **Backend (planned)**: SharePoint Lists + Power Automate. Flow URL constants in `app.html` are empty; the current build uses placeholder data.
+- **Moderators**: Sign in, see **only assigned sessions**, work through step checklists, mark complete. Client demo login: `moderator`.
+- **Admins**: Sign in as `admin` for a read-only demo dashboard (not live SharePoint).
 
-**Key fact**: This is a hybrid of Kilo's UI and Orbit's backend patterns. Moderator experience is familiar/simple; backend tracks everything for audit/reporting. See `Dev_Notes.md` → "Key decisions & reasoning".
+**Key fact**: Hybrid of Kilo's UI and Orbit's backend patterns. See `Dev_Notes.md` → "Key decisions & reasoning".
 
 ---
 
@@ -52,11 +52,14 @@ You're inheriting Project Wave, a moderator checklist app + admin dashboards for
 4. GitHub Pages will auto-deploy within ~30 seconds
 5. Test the live version at the GitHub Pages URL (also TBD by Riley)
 
-### Recurring maintenance tasks
+#### Recurring maintenance tasks
 
-#### App content & workflow
+##### Local testing (until SharePoint is live)
+- Open `app.html` in a browser. Demo logins (amber **Demo Version Logins** banner): `moderator` (checklist — Riley’s four Redmond sessions; Sarah M. and Michael C. / Lisa R. already completed), `admin` (dashboard). Legacy stand-ins `riley.robertson` and `david.kang` still work. Each moderator should only see their own sessions. If the list looks stale, sign out or use a private window (`wave_session_v18_`).
+
+##### App content & workflow
 - **Update session steps**: If the data-collection protocol changes, update the session steps in the `SESSIONS` array and redeploy `app.html`. Test thoroughly before deploying.
-- **Update reminders**: If safety guidelines or best practices change, update the "Key Reminders" section in the menu panel and redeploy.
+- **Update reminders**: If safety guidelines or best practices change, update the "Key Reminders" section in the menu panel and redeploy. Menu order is: logged-in username, Sign out, then reminders/troubleshooting.
 - **Update troubleshooting**: If new issues come up, add them to the troubleshooting table and redeploy.
 - **Reference media updates**: If clips/GIFs need to be updated or added, upload to SharePoint Document Library and update ReferenceMedia list with new URLs.
 
@@ -72,8 +75,8 @@ You're inheriting Project Wave, a moderator checklist app + admin dashboards for
 - **Version number bumping**: Update `APP_VERSION` constant (format: `MAJOR.MINOR.MMDDYY`) with every code change.
 
 #### Users & access
-- **Login credentials**: Moderators sign in with username (validated against Moderators list). No passwords. If someone needs access, add them to Moderators list + set active=true.
-- **Admin access**: Hardcoded in `app.html` (admin username list). To give someone admin access, add their username to the list and redeploy.
+- **Login credentials**: Username only, no passwords. Production: Moderators SharePoint list + `active=true`. Current skeleton: `PLACEHOLDER_MODERATORS` in `app.html`.
+- **Admin access**: Usernames `admin` and `wave.admin` (`role: admin` in `PLACEHOLDER_MODERATORS`). Dashboard is demo data. Production: add admins to the Moderators list with an admin role — not implemented against SharePoint yet.
 
 #### Monitoring
 - **User reports**: If a moderator reports an issue:
@@ -130,6 +133,24 @@ The app expects exact column names and types in SharePoint Lists. If a column is
 - SessionLog: `session_id`, `event`, `timestamp`
 - Moderators: `username`
 
+### Nested task keys and completion
+Session Checklist tasks use stable `key` fields. Nested completion events will include both `parent_key` and `step_key`; changing keys after production data exists will fragment reporting.
+
+Current keys:
+- Top-level: `greet_confirm_ids`, `confirm_signed_nda`, `participant_orientation`, `complete_hydra_intake`
+- Scenario groups: `scenario_t1`, `scenario_a1`, `scenario_a2`, `scenario_m1`
+- Scenario checks: `{code}_{camera_orientation|camera_placement|camera_obstructions|video_check|audio_check|performance_check}`
+- Section headers: `{code}_before_recording`, `{code}_after_recording` (plus `note` helper copy; not checkable)
+
+- Grouped scenario tasks are never toggled directly. They derive completion from all nested checks.
+- Scenario groups unlock in list order. T1 requires all earlier top-level tasks; A1, A2, and M1 each require the preceding scenario to be complete.
+- `before_recording` and `after_recording` are visual section headers, not checkable steps and not part of progress totals.
+- Title-only items on the main list and detailed scenario checks are the manually completed records.
+- Desktop uses a two-pane layout for scenario groups; title-only items toggle in place. Empty pane copy is “Select a Scenario” / “Subtasks will appear here.” Mobile uses drill-in only for scenario groups. Test both whenever task markup or CSS changes.
+- Post-Session always shows Notes and Complete session; the button stays disabled until every checkable step in all three phases is done.
+- Desktop sidebar collapse is stored in `wave_sidebar_collapsed`.
+- Do not surface the words “parent” or “child” in the UI. Those names are internal only.
+
 ### CSS class names
 The CSS relies on specific class names (`.s-item`, `.step-dot`, `.s-check`, etc.). Renaming breaks styling.
 
@@ -148,7 +169,7 @@ Every code change should bump the version (at minimum the date segment). Moderat
 UI optimized for phones (sidebar → overlay on narrow screens). Always test on real iPhone + Android before deploying. Desktop works too, but not the priority.
 
 ### Dark mode + pink accent
-Kilo design system: dark background (#0f0f0e), pink accent (#EF43B3), "SF Pro Display" font stack. Light mode can be added later if needed.
+Kilo design system: dark background (#0f0f0e), pink accent (#EF43B3), "SF Pro Display" font stack. On-screen title is **mmWave** (nav + login). Light mode toggle exists in the nav.
 
 ### No third-party dependencies
 Vanilla HTML, CSS, JavaScript only. No frameworks, no npm. Easy to deploy, no dependency rot.
@@ -192,11 +213,11 @@ Before declaring any change done:
   - [ ] Sessions update (status/useable_minutes)
   - [ ] Moderators read
 - [ ] **Set up GitHub repo** for version control
-- [ ] **Build `app.html` skeleton**:
-  - [ ] Copy from Kilo Task Tracker.html
-  - [ ] Add login screen
-  - [ ] Wire flow URLs
-  - [ ] Implement cloud sync (read sessions, write SessionLog)
+- [x] **Build `app.html` skeleton**:
+  - [x] Copy from Kilo Task Tracker.html (structure/tokens)
+  - [x] Add login screen
+  - [ ] Wire flow URLs (constants exist, still empty)
+  - [x] Implement cloud sync stubs (read sessions, write SessionLog — no-op until URLs are set)
   - [ ] Test end-to-end: login → see sessions → complete session → verify in SharePoint
 
 ### Week 2 (Critical) — content + admin

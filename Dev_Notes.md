@@ -19,8 +19,9 @@ Project Wave Checklist App Test/
 ├── Changelog.md                       [Version history and why]
 ├── Team_Handoff.md                    [For humans maintaining the project]
 │
-├── app.html                           [Single-file app: HTML + CSS + JS]
-├── index.html                         [Symbolic link to app.html for GitHub Pages]
+├── app.html                           [Single-file app: HTML + CSS + JS — this is the working product]
+├── index.html                         [Not created yet — copy of app.html for GitHub Pages when we deploy]
+├── Session Checklist.xlsx             [Protocol source for Session Checklist copy]
 │
 └── Reference Files/
     ├── Team Shared Guidelines/
@@ -49,31 +50,36 @@ Project Wave Checklist App Test/
 ## Current state
 
 ### Version
-**0.1.MMDDYY** — Schema established, no code yet. (See `Changelog.md` for date-specific version numbers.)
+**0.1.082426** (`APP_VERSION` in `app.html`). See `Changelog.md`.
 
-### Shipped
-- [ ] Frontend skeleton (HTML + CSS + JS from Kilo, customized for Wave)
-  - [ ] Sidebar with session list
-  - [ ] Session detail panel with step checklists
-  - [ ] Reference media support (embedded clips/GIFs)
-  - [ ] Menu panel (reminders, troubleshooting, settings)
-  - [ ] Mobile-responsive layout
-- [ ] Login screen (validate against Moderators SharePoint List)
-- [ ] Cloud sync to backend (Power Automate flows for read/write)
-  - [ ] Read: Sessions, Participants, Moderators, ReferenceMedia
-  - [ ] Write: SessionLog (append-only status events)
-- [ ] Theme toggle (dark/light, Kilo design)
+### Shipped (local-only skeleton)
+- [x] Frontend skeleton in `app.html` (Kilo tokens, login, app shell, menu, theme toggle, mobile layout)
+- [x] Sidebar: **Your Assigned Sessions**, date/time, type chip, participant short name, phase dots; completed sessions show a full-width pink **completed** pill. Desktop collapse-to-rail control (remembered).
+- [x] Session detail: three phases — **Device Prep**, **Session Checklist**, **Post-Session**. Notes + Complete session always visible on Post-Session; button disabled until `sessionComplete()`.
+- [x] Nested Session Checklist: protocol from `Session Checklist.xlsx`; title-only items on the main list; sequentially unlocked T1 → A1 → A2 → M1; six detailed checks under **Before Recording** / **After Recording** (headers + helper notes, not steps); desktop two-pane view and mobile drill-in
+- [x] Login against placeholder Moderators. Client demo: `moderator` / `admin` (amber **Demo Version Logins** banner). No username prefill. Legacy: `riley.robertson`, `david.kang`, `wave.admin`
+- [x] Moderators only load/see sessions assigned to them (`sessionAssignedTo`). `moderator` sees the same four Redmond sessions as `riley.robertson`; Sarah M. and Michael C. / Lisa R. are pre-completed
+- [x] localStorage per username (`wave_session_v19_<username>`)
+- [x] Cloud sync **stubs**: `MODERATORS_READ_URL`, `SESSIONS_READ_URL`, `SESSIONS_WRITE_URL`, `SESSIONLOG_WRITE_URL` are `''`; reads fall back to placeholders; writes log to console
+- [x] Menu: **Logged in as: [username]**, Sign out, then placeholder reminders/troubleshooting
+- [ ] Theme toggle is in the nav (works); not a separate “settings” panel
+- [ ] Reference media: steps may have `ref_media_id`; UI shows “not yet configured”
+- [ ] Menu reminders/troubleshooting are still placeholder copy
 
 ### In Progress
-- Setting up documentation (this is Session 1)
+- Iterating the moderator UI for a client demo (Riley, this Cursor session). Backend not started.
 
 ### Not yet started
-- Actual session/step content (from workflow definition)
-- Reminders & troubleshooting content
-- Reference media (clips/GIFs) URLs and display
-- Admin dashboard (project progress view)
-- Power Automate flow creation (URLs to be wired)
-- SharePoint Lists setup + schema validation
+- Real reminders & troubleshooting
+- Reference media URLs
+- Live admin metrics from SharePoint (UI exists; data is demo)
+- Power Automate flows (URLs still empty)
+- SharePoint Lists
+- `index.html` / GitHub Pages deploy
+- Clearing leftover demo logins / placeholder roster before real users
+
+### How to run locally
+Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` (dashboard). If the list looks stale, sign out or use a private window — storage key is currently `wave_session_v19_`.
 
 ---
 
@@ -88,7 +94,7 @@ Project Wave Checklist App Test/
   - [ ] **Moderators** (id, username, email, site_assigned, active)
   - [ ] **Sites** (id, name, location, contact_info)
   - [ ] **Participants** (id, participant_id_code, demographics?, consent_status)
-  - [ ] **Sessions** (id, moderator_id, participant_id, site_id, session_type [single/paired], scheduled_time, start_time, end_time, status [in_progress/completed/abandoned], useable_minutes, notes)
+  - [ ] **Sessions** (id, moderator_id, participant_id, site_id, session_type [single/paired], scheduled_time, start_time, end_time, status [in_progress/completed/abandoned], notes; useable_minutes optional — not collected in the current UI)
   - [ ] **SessionLog** (id, session_id, event [started/step1_done/.../completed], timestamp, moderator_id) — append-only
   - [ ] **ReferenceMedia** (id, session_type, step_number, file_url, description)
 - [ ] Create Power Automate flows:
@@ -98,18 +104,20 @@ Project Wave Checklist App Test/
   - [ ] Get flow URLs, wire into `app.html` constants
 
 **Frontend skeleton:**
-- [ ] Create `app.html` from Kilo Task Tracker.html:
-  - [ ] Copy HTML structure, CSS, Kilo design system
-  - [ ] Add login screen + username validation against Moderators list
-  - [ ] Replace hardcoded TASKS with SESSIONS array (dynamically loaded from backend)
-  - [ ] Add cloud sync: read Sessions at login, write SessionLog on every step completion
-  - [ ] Verify: JS parses, CSS braces balance, version bumped to 0.1.MMDDYY
+- [x] Create `app.html` from Kilo patterns:
+  - [x] HTML structure, CSS, Kilo design system
+  - [x] Login screen + username validation against Moderators list (placeholder list until the read URL is wired)
+  - [x] Sessions loaded from placeholder data (or backend when wired), filtered to the signed-in moderator
+  - [x] Cloud sync stubs: read Sessions at login, write SessionLog on step completion (no-ops while URLs are empty)
+  - [ ] Verify: JS parses, CSS braces balance — do this before calling a build “done”
+  - [x] Version stamp `0.1.082026`
 
 #### Week 2: Content + admin basics
 
 **Workflow definition:**
-- [ ] Define session types and step checklist for single-participant sessions
-- [ ] Define step checklist for paired-participant sessions
+- [x] Device Prep checklist (6 steps + condition notes) — landed in `app.html`
+- [x] Session Checklist (greet → NDA/consent → explain/rehearse → Hydra M1 / A1 / A2 / T1); greet/explain wording still differs by session type
+- [x] Post-Session checklist (Hydra ingestion, Feather task + metadata, TAR upload, pack/return)
 - [ ] Identify reference media needs (clips/GIFs moderators will need)
 - [ ] Write key reminders for menu panel
 - [ ] Write troubleshooting tips
@@ -117,15 +125,16 @@ Project Wave Checklist App Test/
 **Frontend:**
 - [ ] Integrate reference media URLs (clips/GIFs embeddable in steps)
 - [ ] Add session type logic (different step sequences for single vs. paired)
-- [ ] Build menu panel (reminders, troubleshooting table, settings)
-- [ ] Add session completion form (ask for useable_minutes, notes, etc.)
+- [x] Build menu panel (reminders, troubleshooting table, settings)
+- [x] Add session completion form (notes only; Complete session gated on all steps)
 - [ ] Test on iPhone + Android
 - [ ] Version bump to 0.2.MMDDYY
 
 **Admin dashboard (basic):**
-- [ ] Create admin login view
-- [ ] Build progress dashboard: total hours collected, target, active sites/moderators
+- [x] Create admin login view (`admin` / `wave.admin`, `role: admin`)
+- [x] Build progress dashboard: hours vs 100h, sessions, sites/moderators (demo stats in `placeholderAdminStats()`)
 - [ ] Add session list view with filter/sort
+- [ ] Replace demo stats with live SessionLog / Sessions queries
 
 #### Week 3: Polish + final testing + deployment
 
@@ -214,23 +223,51 @@ Project Wave Checklist App Test/
 - Main panel shows current session's steps
 - Easy to reference media (clips/GIFs) alongside steps
 
-**Schema**:
+**Schema (as implemented in placeholder sessions):**
 ```js
-// Loaded from backend at login
-SESSIONS = [
-  { 
-    id, moderator_id, participant_id, site_id, 
-    session_type: "single|paired",
-    status: "in_progress|completed|abandoned",
+{
+  session_id, moderator_id, site_id,
+  session_type: "single|paired",
+  participants: ["Full Name", ...],  // UI shows first name + last initial via sessionLabel()
+  scheduled_date: "YYYY-MM-DD",
+  scheduled_time: "9:00 AM",
+  scheduled_at: "YYYY-MM-DDTHH:MM:SS", // sort key
+  status: "in_progress|completed",
+  useable_minutes, notes,  // UI no longer collects useable_minutes; field remains on the session object for a future backend
+  phases: [{
+    key, title,
     steps: [
-      { t: "instruction", meta?: "time/distance/etc", ref_media_id?: "url" },
-      { ... }
+      { kind: "info", title, t },
+      { kind: "child-title", key, t, done? }, // top-level; toggles on the main list
+      {
+        kind: "parent", key, t,
+        children: [
+          { kind: "child-title", key, t, done? },
+          { kind: "child-detailed", key, t, description, done? }
+        ]
+      }
     ]
-  }
-]
-// SessionLog (immutable, append-only)
-SessionLog: [ { session_id, event, timestamp }, ... ]
+  }]
+}
 ```
+Flat phases (Device Prep and Post-Session) still use their existing simple step objects. SessionLog events (when wired): `step_completed` / `step_reopened` / `session_completed`; nested child events also include `parent_key`, `parent`, and `step_key`.
+
+---
+
+### Three-level task behavior (Session Checklist redesign)
+**Decision**: The Session Checklist supports three task types. These names are for developers only and never appear in the UI:
+- **Parent** (`kind: "parent"`): opens its children and cannot be toggled directly; complete only when every child is complete.
+- **Child title-only** (`kind: "child-title"`): manually toggled, title only.
+- **Child detailed** (`kind: "child-detailed"`): manually toggled, title plus smaller descriptive copy. Completion uses the tertiary color on both title and description; no strikethrough.
+- **Section** (`kind: "section"`): visual header only (`before_recording`, `after_recording`). Optional `note` is helper copy under the header, not a step and not in progress totals.
+
+**Responsive behavior**:
+- Desktop: parent list on the left; selected child list in a pane to the right.
+- Mobile: parent rows have right arrows; tapping drills into a full child list that slides in from the right, with an in-content back button.
+
+**Phase header area**: The phase name is not repeated above the list — the segmented control is the only label. `.seg-control` carries `margin-bottom:43px`, which reproduces the old spacing (20px control margin + 11px label + 12px label margin); change it if the control or list padding changes. The selected segment uses `--seg-active`, a per-theme value deliberately darker than `--card-bg` so the selection reads at a glance.
+
+**Current Session Checklist structure**: Top-level title-only — greet/IDs, signed NDA, participant orientation, then Hydra intake after the Hydra note. Scenario groups T1, A1, A2, M1 unlock sequentially. Each has six detailed checks: three under **Before Recording** (orientation/placement/obstructions) and three under **After Recording** (video, audio, performance). Section headers are not steps. Helper notes under the headers (full-contrast body text): Before Recording — do the checks for every camera placement, then mark them finished when the whole recording is done; After Recording — use Hydra preview for the three checks and re-record if anything fails. The Hydra instruction on the main list uses the same pink header + white body style, titled **Hydra App**. Section titles match Hydra App exactly: 12.5px, weight 700, uppercase, pink. Keep the title in a `span` (`.child-section-title`), not a `strong` — a nested `strong` resolves `bolder` against the 700 parent and renders at 900, which is what made the scenario headers look heavier than Hydra. Empty right pane copy: “Select a Scenario” / “Subtasks will appear here.” Same copy for single and paired until we get type-specific wording. Do not change `key` fields casually—they will be written to SessionLog.
 
 ---
 
@@ -243,7 +280,44 @@ SessionLog: [ { session_id, event, timestamp }, ... ]
 - Supports QA process (video team can cross-reference SessionLog)
 - Scales to 200+ sessions
 
-**Implication**: Moderators need internet connectivity (or app will cache and sync when connection returns).
+**Implication**: Moderators need internet connectivity (or the app will cache and sync when connection returns — offline retry is not implemented).
+
+---
+
+### Moderators only see assigned sessions
+**Decision**: Filter at login (and again in `allSessions()`) so `moderator_id` on the session must match the signed-in profile. Do not show a global session list.
+
+**Why**: Field moderators should not see another site’s roster. Admins (`role: admin`) skip the session list and open the dashboard instead.
+
+---
+
+### Demo admin dashboard (Kilo KPI pattern)
+**Decision**: Admin view is a read-only dashboard in the same `app.html`. KPIs follow Kilo (large numbers, site/type/day bars, moderator table). No Chart.js — CSS bars only, to stay zero-dependency.
+
+**Why**: Leadership needs a progress surface now for design review. Live SessionLog queries come later; `placeholderAdminStats()` is explicitly labeled demo data.
+
+---
+
+### On-screen name is mmWave (for now)
+**Decision**: Nav and login brand say `mmWave`. Folder and docs still say Project Wave.
+
+**Why**: Riley asked for this display name during skeleton work. Treat as temporary until a final product name is locked.
+
+---
+
+### Placeholder data for UI development
+**Decision**: Until flow URLs are non-empty, use `PLACEHOLDER_MODERATORS`, `PLACEHOLDER_CONTACTS`, and `placeholderSessions()`.
+
+**Current stand-ins:**
+| Username | Site | Sessions |
+|---|---|---|
+| `moderator` | Demo (Riley’s Redmond roster) | Same four Redmond sessions as `riley.robertson`; first two pre-completed |
+| `admin` | All | Demo dashboard (not a session list) |
+| `riley.robertson` | Redmond | 4 sessions, Aug 20–25 2026 (first two pre-completed) |
+| `david.kang` | Las Vegas | 3 sessions, Aug 20–26 2026 |
+| `wave.admin` | All | Demo dashboard (same as `admin`) |
+
+Participants are the ten names from Riley’s `fake_contacts2.csv`, shown as first name + last initial (e.g. `Sarah M.`, paired `Michael C. / Lisa R.`).
 
 ---
 
@@ -272,10 +346,12 @@ SessionLog: [ { session_id, event, timestamp }, ... ]
 ## Working conventions
 
 ### How to collaborate with me (Riley)
+- **Keep the four docs current with the code**, per `Reference Files/Team Shared Guidelines/Project_Documentation_Instructions.md`. `Dev_Notes.md` updates with every change; `Changelog.md` for notable versions; `README.md` only when the big picture or folder layout changes; `Team_Handoff.md` when operating procedure or unfinished work changes. Do not skip docs until the end of a session.
+- **Ask before bumping MAJOR.MINOR** (date segment in `APP_VERSION` can follow the build date). See Changelog versioning notes.
 - **Before proposing a big architectural change**, check `Dev_Notes.md` and `ARCHITECTURE_REFERENCE.md` first. Many patterns are locked in for good reason.
 - **Ask clarifying questions early**. Ambiguity about workflow/inventory/admin-freshness can compound into rework.
 - **Iterative builds over big-bang**. Ship small features, verify, iterate.
-- **Show verification results**. Every build should end with: JS parses ✓, CSS balanced ✓, feature checks pass ✓, version bumped ✓.
+- **Show verification results**. Every build should end with: JS parses ✓, CSS balanced ✓, feature checks pass ✓, version considered ✓.
 
 ### Code structure expectations
 - **High comment density**. Document WHY, not just WHAT. Especially browser quirks, mobile-specific decisions, trade-offs.

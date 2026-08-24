@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f0e">
+<title>Wave — Moderator Checklist</title>
+<style>
+/* ============================================================
+   TOKENS — Centific Kilo Design System (see Reference Files/
+   Project Kilo Files/centific-kilo-design-system.md). Pink accent,
+   dark-mode default, hairline borders, frosted-glass nav.
+   ============================================================ */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior-y:contain;
+}
+:root{
+  --pink:#EF43B3; --pink-dim:#c4359a;
+  --amber:#F59E0B; --amber-bg:#FFF8EC; --amber-text:#92400E;
+  --green:#22c55e; --green-bg:#EAF3DE; --green-text:#27500A;
+  --red:#ef4444; --red-bg:#FEF2F2; --red-text:#991b1b;
+  --blue:#3b82f6; --blue-bg:#EFF6FF; --blue-text:#1e3a8a;
+  --r:12px; --rl:18px;
+  --font:-apple-system,'SF Pro Display','SF Pro Text',BlinkMacSystemFont,'Helvetica Neue',sans-serif;
+  --font-num:'Avenir Next','Avenir','SF Pro Display',-apple-system,sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#0f0f0e; --bg2:#1a1a18; --bg3:#232320; --bg4:#2d2d29;
+  --text:#F7F5F0; --text2:#a8a8a0; --text3:#7a7a72;
+  --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.14);
+  --input-bg:#232320; --card-bg:#1a1a18; --nav-bg:rgba(15,15,14,0.88); --sidebar-bg:#1a1a18;
+  --seg-active:#101010;
+  --shadow-sm:0 2px 12px rgba(0,0,0,0.4); --shadow-md:0 8px 40px rgba(0,0,0,0.5); --shadow-lg:0 20px 60px rgba(0,0,0,0.6);
+}
+[data-theme="light"]{
+  --bg:#f5f5f7; --bg2:#ffffff; --bg3:#fbfbfd; --bg4:#e8e8ed;
+  --text:#1d1d1f; --text2:#4a4a4f; --text3:#8a8a8e;
+  --border:rgba(180,100,160,0.14); --border-strong:rgba(150,80,130,0.22);
+  --input-bg:#f5f5f7; --card-bg:#ffffff; --nav-bg:rgba(245,245,247,0.88); --sidebar-bg:#ffffff;
+  --seg-active:#e4e4ea;
+  --shadow-sm:0 2px 12px rgba(0,0,0,0.06); --shadow-md:0 8px 40px rgba(0,0,0,0.10); --shadow-lg:0 20px 60px rgba(0,0,0,0.12);
+}
+
+/* ============================================================ LOGIN */
+#loginScreen{
+  min-height:100dvh; display:flex; align-items:center; justify-content:center;
+  padding:24px; background:var(--bg);
+}
+.login-card{
+  width:min(92vw,380px); background:var(--card-bg); border:.5px solid var(--border);
+  border-radius:var(--rl); padding:32px 28px; box-shadow:var(--shadow-lg);
+  animation:fadeUp .3s cubic-bezier(.4,0,.2,1);
+}
+.login-brand{display:flex;align-items:center;gap:8px;margin-bottom:22px}
+.login-dot{width:9px;height:9px;border-radius:50%;background:var(--pink)}
+.login-brand span{font-size:11px;font-weight:600;color:var(--pink);letter-spacing:.08em;text-transform:uppercase}
+.login-title{font-size:clamp(22px,3vw,26px);font-weight:600;letter-spacing:-0.03em;margin-bottom:6px}
+.login-sub{font-size:14px;color:var(--text2);margin-bottom:22px}
+.login-card input{
+  width:100%;padding:12px 14px;background:var(--input-bg);border:.5px solid var(--border-strong);
+  border-radius:var(--r);color:var(--text);font-family:var(--font);font-size:15px;margin-bottom:12px;
+}
+.login-card input:focus{outline:none;border-color:var(--pink);box-shadow:0 0 0 4px rgba(239,67,179,.10)}
+.login-card input.error{border-color:var(--red)}
+.login-error{font-size:13px;color:var(--red);margin:-4px 0 12px;min-height:16px}
+.demo-banner{
+  margin:16px 0 0;padding:12px 14px;border-radius:10px;
+  background:rgba(245,158,11,.16);border:.5px solid var(--amber);
+  color:#fde68a;font-size:13px;line-height:1.5;text-align:left;
+}
+.demo-banner-title{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}
+.demo-banner p{margin:0}
+.demo-banner strong{font-weight:700;color:inherit}
+[data-theme="light"] .demo-banner{background:var(--amber-bg);color:var(--amber-text)}
+.btn{
+  width:100%;padding:13px;border-radius:var(--r);border:none;cursor:pointer;
+  font-family:var(--font);font-size:15px;font-weight:600;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.btn-primary{background:var(--pink);color:#fff}
+.btn-primary:hover{background:var(--pink-dim);transform:translateY(-1px);box-shadow:0 6px 18px rgba(239,67,179,.35)}
+.btn-primary:active{transform:scale(.98)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-primary:disabled:hover{background:var(--pink);transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--text2);border:.5px solid var(--border-strong)}
+.btn-ghost:hover{background:var(--bg3);color:var(--text)}
+.shake{animation:shake .4s}
+
+/* ============================================================ APP SHELL */
+#app{display:none;height:100dvh;flex-direction:column}
+#app.visible{display:flex}
+nav{
+  position:sticky;top:0;z-index:200;
+  padding-top:env(safe-area-inset-top);
+  padding-left:calc(16px + env(safe-area-inset-left));
+  padding-right:calc(16px + env(safe-area-inset-right));
+  height:calc(52px + env(safe-area-inset-top));
+  background:var(--nav-bg);
+  backdrop-filter:saturate(180%) blur(20px);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:.5px solid var(--border);
+  display:flex;align-items:flex-end;flex-shrink:0;
+}
+.nav-row{height:52px;width:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-left{display:flex;align-items:center;gap:10px;min-width:0}
+.nav-dot{width:8px;height:8px;border-radius:50%;background:var(--pink);flex-shrink:0}
+.nav-brand{font-size:11px;font-weight:600;color:var(--pink);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.icon-btn{
+  width:36px;height:36px;border-radius:10px;background:var(--bg3);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--text2);
+  transition:all .18s ease;
+}
+.icon-btn:hover{background:var(--bg4);color:var(--text)}
+.icon-btn:active{transform:scale(.95)}
+.icon-btn svg{width:17px;height:17px}
+
+.layout{flex:1;min-height:0;display:flex;overflow:hidden}
+.sidebar{
+  width:280px;flex-shrink:0;background:var(--sidebar-bg);border-right:.5px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;transition:width .22s ease;
+}
+.sidebar-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 10px 12px 16px}
+.sidebar-head-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;min-width:0}
+.sidebar-toggle{width:32px;height:32px;flex-shrink:0}
+.sidebar-toggle svg{width:15px;height:15px}
+.sidebar-rail{display:none;flex-direction:column;align-items:center;padding:12px 6px}
+.sidebar.collapsed{width:52px}
+.sidebar.collapsed .sidebar-head,.sidebar.collapsed .sidebar-list{display:none}
+.sidebar.collapsed .sidebar-rail{display:flex}
+.sidebar-list{flex:1;overflow-y:auto;padding:4px 10px 10px}
+.sess-item{
+  padding:12px 12px;border-radius:12px;cursor:pointer;margin-bottom:6px;
+  border:.5px solid transparent;transition:background .15s,border-color .15s;
+}
+.sess-item:hover{background:var(--bg3)}
+.sess-item.active{background:var(--bg3);border-color:var(--border-strong)}
+.sess-item-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.sess-time{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:.03em;max-width:70%}
+.sess-type-chip{font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:20px;background:var(--bg4);color:var(--text2)}
+.sess-type-chip.paired{background:var(--blue-bg);color:var(--blue-text)}
+.sess-pid{font-size:13.5px;font-weight:500;color:var(--text);margin-bottom:8px}
+.sess-phase-dots{display:flex;gap:4px}
+.phase-dot{width:100%;height:4px;border-radius:2px;background:var(--bg4)}
+.phase-dot.complete{background:var(--pink)}
+.phase-dot.partial{background:linear-gradient(90deg,var(--pink) 50%,var(--bg4) 50%)}
+.sess-completed-pill{
+  display:block;width:100%;text-align:center;font-size:10px;font-weight:600;letter-spacing:.06em;
+  text-transform:lowercase;padding:3px 9px;border-radius:20px;
+  background:var(--pink);color:#fff;line-height:1.3;box-sizing:border-box;
+}
+.sess-item.done .sess-pid{color:var(--text3)}
+.sess-item.done{opacity:.7}
+
+.main{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.main-content{flex:1;overflow-y:auto;padding:24px 28px}
+.mobile-back{display:none;background:var(--bg2);padding:12px 16px;align-items:center;gap:10px;cursor:pointer;border-bottom:.5px solid var(--border)}
+.mobile-back svg{width:16px;height:16px}
+.mobile-back span{font-size:13px;color:var(--text2)}
+
+.welcome-state{text-align:center;padding:60px 24px}
+.welcome-icon{width:52px;height:52px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.welcome-icon svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.welcome-title{font-size:clamp(20px,2.5vw,24px);font-weight:600;letter-spacing:-0.02em;margin-bottom:6px}
+.welcome-sub{font-size:14px;color:var(--text2)}
+
+/* session header */
+.sess-header{margin-bottom:18px;padding-bottom:18px;border-bottom:.5px solid var(--border)}
+.sess-header-label{font-size:11px;font-weight:600;color:var(--pink);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.sess-header-title{font-size:clamp(19px,2.5vw,23px);font-weight:600;letter-spacing:-0.02em}
+.meta-strip{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.meta-chip{font-size:11px;padding:4px 10px;border-radius:20px;background:var(--bg3);color:var(--text2);border:.5px solid var(--border);font-weight:500}
+
+/* segmented control — phase switcher */
+.seg-control{display:flex;gap:3px;background:var(--bg3);border:.5px solid var(--border);border-radius:var(--r);padding:3px;margin-bottom:43px}
+.seg-btn{
+  flex:1;padding:9px 8px;border:none;background:transparent;border-radius:9px;cursor:pointer;
+  font-family:var(--font);font-size:12.5px;font-weight:500;color:var(--text2);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .18s ease;white-space:nowrap;
+}
+.seg-btn.active{background:var(--seg-active);color:var(--text);font-weight:600;box-shadow:0 1px 6px rgba(0,0,0,.10)}
+.seg-check{width:14px;height:14px;border-radius:50%;background:var(--green);display:none;align-items:center;justify-content:center;flex-shrink:0}
+.seg-check.show{display:flex}
+.seg-check svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.seg-pending{width:14px;height:14px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.seg-pending svg{width:8px;height:8px;stroke:#fff;fill:none;stroke-width:3;stroke-linecap:round}
+
+.section-label{font-size:10px;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin:0 0 12px}
+.steps-list{list-style:none}
+.step-item{display:flex;gap:12px;padding:12px 0;border-bottom:.5px solid var(--border);cursor:pointer;align-items:flex-start}
+.step-item:last-child{border-bottom:none}
+.step-item:has(+ .step-info){border-bottom:none} /* no rule between a step and a following banner */
+.step-dot{
+  width:26px;height:26px;border-radius:50%;border:1.5px solid var(--border-strong);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg2);
+  transition:all .2s;margin-top:1px;
+}
+.step-dot.done{background:var(--pink);border-color:var(--pink)}
+.step-dot .step-num{font-size:10px;font-weight:600;color:var(--text3)}
+.step-dot.done .step-num{display:none}
+.step-tick{display:none}
+.step-dot.done .step-tick{display:flex;align-items:center;justify-content:center}
+.step-tick svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.step-content{flex:1;min-width:0}
+.step-text{font-size:14.5px;color:var(--text);line-height:1.55}
+.step-text.done-text{color:var(--text3)}
+.step-meta{display:inline-block;margin-left:8px;font-size:11px;color:var(--text3);font-weight:500}
+.warn-box{background:var(--amber-bg);border:.5px solid var(--amber);border-radius:10px;padding:10px 13px;margin-top:8px;font-size:12.5px;color:var(--amber-text);line-height:1.5;font-weight:500}
+.step-note{
+  display:block;width:100%;margin-top:10px;padding:10px 13px;background:var(--input-bg);
+  border:.5px solid var(--border-strong);border-radius:var(--r);color:var(--text);
+  font-family:var(--font);font-size:14px;resize:vertical;cursor:text;
+}
+.step-note:focus{outline:none;border-color:var(--pink);box-shadow:0 0 0 4px rgba(239,67,179,.10)}
+.step-note-label{font-size:12px;font-weight:600;color:var(--text2);margin-top:10px;display:block}
+.list-section{
+  padding:16px 12px 12px;
+}
+.list-section strong{
+  display:block;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--pink);
+}
+.list-section-note{
+  margin-top:6px;font-size:12.5px;font-weight:400;line-height:1.55;
+  letter-spacing:0;text-transform:none;color:var(--text);
+}
+
+/* Nested task browser: parent list + child detail pane on desktop; drill-in on mobile. */
+.task-browser{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(320px,1.2fr);gap:16px;align-items:start}
+.task-browser-track{display:contents}
+.task-pane{min-width:0}
+.task-parent-list,.task-child-list{list-style:none}
+.parent-task{
+  width:100%;display:flex;align-items:center;gap:12px;padding:14px 12px;
+  border:0;border-bottom:.5px solid var(--border);background:transparent;color:var(--text);
+  font-family:var(--font);text-align:left;cursor:pointer;
+}
+.parent-task:first-child{border-top:.5px solid var(--border)}
+.parent-task:hover,.parent-task.active{background:var(--bg3)}
+.parent-task.active{border-radius:10px;border-color:transparent}
+.parent-task:disabled{cursor:not-allowed;opacity:.52}
+.parent-task:disabled:hover{background:transparent}
+.parent-copy{flex:1;min-width:0}
+.parent-title{display:block;font-size:14.5px;font-weight:500;line-height:1.45;white-space:normal;overflow-wrap:anywhere}
+.parent-title.done{color:var(--text3)}
+.task-list-banner{list-style:none}
+.parent-progress{display:block;margin-top:4px;font-size:11px;color:var(--text3)}
+.parent-arrow{width:16px;height:16px;flex-shrink:0;color:var(--text3)}
+.parent-arrow svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.parent-lock{width:16px;height:16px;flex-shrink:0;color:var(--text3)}
+.parent-lock svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.parent-empty{
+  min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:28px;text-align:center;border:.5px dashed var(--border-strong);border-radius:var(--rl);color:var(--text3);
+}
+.parent-empty strong{font-size:15px;color:var(--text2);margin-bottom:5px}
+.child-pane-card{border:.5px solid var(--border);border-radius:var(--rl);background:var(--card-bg);overflow:hidden}
+.child-pane-head{padding:16px 18px;border-bottom:.5px solid var(--border);background:var(--bg3)}
+.child-pane-title{font-size:17px;font-weight:600;line-height:1.4;white-space:normal;overflow-wrap:anywhere}
+.child-pane-progress{font-size:11px;color:var(--text3);margin-top:5px}
+.child-back{
+  display:none;align-items:center;gap:8px;margin-bottom:14px;border:0;background:transparent;
+  color:var(--text2);font-family:var(--font);font-size:13px;cursor:pointer;padding:0;
+}
+.child-back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.child-task{
+  display:flex;gap:12px;padding:14px 18px;border-bottom:.5px solid var(--border);
+  cursor:pointer;align-items:flex-start;min-width:0;
+}
+.child-task:last-child{border-bottom:0}
+.child-task:hover{background:var(--bg3)}
+.child-section{
+  padding:16px 18px 8px;background:var(--card-bg);
+}
+.child-section-title{
+  display:block;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--pink);
+}
+.child-section:first-child{padding-top:14px}
+.child-section-note{
+  margin-top:6px;font-size:12.5px;font-weight:400;line-height:1.55;
+  letter-spacing:0;text-transform:none;color:var(--text);
+}
+.child-task-copy{flex:1;min-width:0}
+.child-task-title{display:block;font-size:14.5px;line-height:1.5;white-space:normal;overflow-wrap:anywhere}
+.child-task-title.done{color:var(--text3)}
+.child-task-desc{
+  display:block;margin-top:5px;font-size:12.5px;line-height:1.55;color:var(--text2);
+  white-space:normal;overflow-wrap:anywhere;
+}
+.child-task-desc.done{color:var(--text3)}
+@media(min-width:761px){.parent-arrow{display:none}}
+
+.done-banner{background:var(--bg3);border:.5px solid var(--pink);border-radius:12px;padding:14px 16px;text-align:center;margin-top:18px}
+.done-banner p{font-size:13px;color:var(--pink);font-weight:600}
+
+/* post-session completion form */
+.complete-form{margin-top:20px;padding-top:18px;border-top:.5px solid var(--border)}
+.field-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block}
+.complete-form input,.complete-form textarea{
+  width:100%;padding:10px 13px;background:var(--input-bg);border:.5px solid var(--border-strong);
+  border-radius:var(--r);color:var(--text);font-family:var(--font);font-size:14px;margin-bottom:14px;resize:vertical;
+}
+.complete-form input:focus,.complete-form textarea:focus{outline:none;border-color:var(--pink);box-shadow:0 0 0 4px rgba(239,67,179,.10)}
+
+/* ============================================================ ADMIN DASHBOARD (Kilo-style KPIs) */
+#adminDash{display:none;flex:1;min-height:0;overflow-y:auto;background:var(--bg)}
+#adminDash.visible{display:block}
+.dash-body{padding:20px 24px 40px;display:flex;flex-direction:column;gap:20px;max-width:1280px;margin:0 auto}
+.dash-hero{margin-bottom:4px}
+.dash-kicker{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--pink);margin-bottom:6px}
+.dash-title{font-size:clamp(22px,3vw,28px);font-weight:600;letter-spacing:-0.03em}
+.dash-sub{font-size:14px;color:var(--text2);margin-top:4px}
+.hours-track{height:8px;background:var(--bg4);border-radius:6px;overflow:hidden;margin-top:14px}
+.hours-fill{height:100%;background:var(--pink);border-radius:6px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi-card{
+  background:var(--card-bg);border:.5px solid var(--border);border-radius:var(--rl);
+  padding:18px 20px;box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;justify-content:space-between;min-height:118px;
+}
+.kpi-top-row{display:flex;align-items:flex-start;justify-content:space-between}
+.kpi-bottom-row{display:flex;align-items:flex-end;justify-content:space-between;gap:8px;margin-top:auto}
+.kpi-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+.kpi-value-xl{font-family:var(--font-num);font-weight:300;letter-spacing:-0.03em;line-height:1;font-size:44px;text-align:right}
+.kpi-sub{font-size:12px;color:var(--text3);align-self:flex-end;padding-bottom:3px;max-width:55%}
+.kpi-card.accent .kpi-value-xl{color:var(--pink)}
+.kpi-card.green .kpi-value-xl{color:var(--green)}
+.kpi-card.blue .kpi-value-xl{color:var(--blue)}
+.kpi-card.amber .kpi-value-xl{color:var(--amber)}
+.kpi-suffix{font-size:18px;font-weight:500;opacity:.7;margin-left:2px}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-card{background:var(--card-bg);border:.5px solid var(--border);border-radius:var(--rl);padding:18px 20px;box-shadow:var(--shadow-sm)}
+.chart-card.full{grid-column:1/-1}
+.chart-title{font-size:15px;font-weight:600;letter-spacing:-0.02em;margin-bottom:3px}
+.chart-sub{font-size:12px;color:var(--text3);margin-bottom:16px}
+.bar-row{display:grid;grid-template-columns:88px 1fr 48px;gap:10px;align-items:center;margin-bottom:10px}
+.bar-label{font-size:12px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{height:10px;background:var(--bg4);border-radius:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;background:var(--pink)}
+.bar-fill.green{background:var(--green)}
+.bar-fill.blue{background:var(--blue)}
+.bar-val{font-size:12px;font-weight:600;color:var(--text);text-align:right;font-family:var(--font-num)}
+.detail-table{width:100%;border-collapse:collapse}
+.detail-table th{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);padding:8px 12px;border-bottom:.5px solid var(--border);text-align:left}
+.detail-table td{font-size:13px;color:var(--text);padding:10px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
+.detail-table tr:last-child td{border-bottom:none}
+.detail-table tr:hover td{background:var(--bg3)}
+.mod-pill{display:inline-flex;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:rgba(239,67,179,.1);color:var(--pink);border:.5px solid rgba(239,67,179,.2)}
+.prog-mini{width:80px;height:5px;background:var(--bg4);border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:6px}
+.prog-mini-fill{height:100%;background:var(--pink);border-radius:3px}
+.flag-row{display:flex;gap:10px;flex-wrap:wrap}
+.flag-chip{font-size:12px;padding:8px 12px;border-radius:10px;background:var(--bg3);border:.5px solid var(--border);color:var(--text2)}
+.flag-chip strong{color:var(--text);font-weight:600}
+.flag-chip.warn strong{color:var(--amber)}
+.flag-chip.bad strong{color:var(--red)}
+.demo-note{font-size:12px;color:var(--text3);font-style:italic}
+
+/* ============================================================ MENU DRAWER */
+.menu-overlay{
+  position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.45);
+  backdrop-filter:saturate(160%) blur(18px);-webkit-backdrop-filter:saturate(160%) blur(18px);
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.menu-overlay.open{opacity:1;pointer-events:all}
+.menu-drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:401;width:min(380px,90vw);
+  background:var(--bg2);border-left:.5px solid var(--border);box-shadow:-8px 0 48px rgba(0,0,0,.3);
+  transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  padding:calc(20px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom));
+  overflow-y:auto;
+}
+.menu-drawer.open{transform:translateX(0)}
+.menu-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.menu-drawer-title{font-size:17px;font-weight:600}
+.reminder-item{display:flex;gap:10px;align-items:flex-start;background:var(--amber-bg);border:.5px solid var(--amber);border-radius:10px;padding:11px 13px;margin-bottom:8px}
+.reminder-icon{font-size:14px;flex-shrink:0;line-height:1.5}
+.reminder-text{font-size:13px;color:var(--amber-text);line-height:1.55;font-weight:500}
+.trouble-wrap{border:.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:4px}
+.trouble-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.trouble-row+.trouble-row{border-top:.5px solid var(--border)}
+.trouble-header{background:var(--bg3)}
+.trouble-header .tc{color:var(--pink);font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.tc{padding:10px 11px;font-size:12px;line-height:1.5;color:var(--text)}
+.tc.issue{font-weight:500;border-right:.5px solid var(--border)}
+.tc.resolution{color:var(--text2)}
+.divider{height:.5px;background:var(--border);margin:20px 0 16px}
+.todo-note{font-size:11px;color:var(--text3);font-style:italic;margin-bottom:14px}
+.menu-user{font-size:13px;color:var(--text2);margin:-4px 0 16px}
+.menu-drawer .btn{margin-bottom:10px}
+
+/* ============================================================ TOAST */
+.toast{
+  position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;
+  transform:translateX(-50%) translateY(20px);z-index:999;padding:12px 20px;
+  background:var(--text);color:var(--bg);border-radius:var(--rl);font-size:13.5px;font-weight:500;
+  box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease;
+  max-width:88vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ============================================================ SIMPLE MODAL (confirm) */
+.modal-overlay{
+  position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.55);
+  backdrop-filter:saturate(160%) blur(22px);-webkit-backdrop-filter:saturate(160%) blur(22px);
+  opacity:0;pointer-events:none;transition:opacity .28s ease;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-46%) scale(.97);
+  width:min(92vw,400px);background:var(--card-bg);border:.5px solid var(--border);
+  border-radius:22px;box-shadow:var(--shadow-lg);z-index:701;opacity:0;pointer-events:none;
+  transition:opacity .25s ease,transform .32s cubic-bezier(.32,.72,0,1);padding:24px;
+}
+.modal.open{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:all}
+.modal h3{font-size:17px;font-weight:600;margin-bottom:10px}
+.modal p{font-size:14px;color:var(--text2);line-height:1.5;margin-bottom:18px}
+.modal-actions{display:flex;gap:10px}
+.modal-actions .btn{margin-bottom:0}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
+/* ============================================================ MOBILE */
+@media(max-width:760px){
+  .sidebar{width:100%;border-right:none}
+  .sidebar.hidden{display:none}
+  .sidebar.collapsed{width:100%}
+  .sidebar.collapsed .sidebar-head,.sidebar.collapsed .sidebar-list{display:flex}
+  .sidebar.collapsed .sidebar-list{display:block}
+  .sidebar-toggle,.sidebar-rail{display:none !important}
+  .layout{flex-direction:column}
+  .main.hidden{display:none}
+  .main-content{padding:16px}
+  .mobile-back{display:flex}
+  .nav-brand{max-width:120px}
+  .icon-btn{width:40px;height:40px}
+  .kpi-row,.charts-grid{grid-template-columns:1fr 1fr}
+  .kpi-value-xl{font-size:36px}
+  .dash-body{padding:16px}
+  .task-browser{display:block;overflow:hidden}
+  .task-browser-track{display:flex;width:200%;transform:translateX(0);transition:transform .32s cubic-bezier(.4,0,.2,1)}
+  .task-browser.drilled .task-browser-track{transform:translateX(-50%)}
+  .task-pane{width:50%;flex:0 0 50%;padding-right:0}
+  .task-pane.child-level{padding-left:16px}
+  .child-back{display:flex}
+  .parent-task.active{border-radius:0}
+  .parent-empty{display:none}
+  .child-pane-card{border:0;border-radius:0;background:transparent}
+  .child-pane-head{padding:0 0 14px;background:transparent}
+  .child-task{padding-left:0;padding-right:0}
+}
+@media(max-width:480px){
+  .kpi-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-brand"><div class="login-dot"></div><span>mmWave</span></div>
+    <div class="login-title">Sign in</div>
+    <div class="login-sub">Enter your username to open the moderator app or admin dashboard.</div>
+    <input type="text" id="loginUsername" placeholder="Username" autocomplete="username" autocapitalize="none">
+    <div class="login-error" id="loginError"></div>
+    <button class="btn btn-primary" id="loginBtn">Sign in</button>
+    <div class="demo-banner" role="status">
+      <span class="demo-banner-title">Demo Version Logins</span>
+      <p><strong>moderator</strong> for checklist</p>
+      <p><strong>admin</strong> for dashboard</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ APP SHELL -->
+<div id="app">
+  <nav>
+    <div class="nav-row">
+      <div class="nav-left">
+        <div class="nav-dot"></div>
+        <span class="nav-brand">mmWave</span>
+      </div>
+      <div class="nav-right">
+        <button class="icon-btn" id="themeToggleBtn" aria-label="Toggle theme" title="Toggle theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-btn" id="menuBtn" aria-label="Menu" title="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout" id="moderatorLayout">
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-head">
+        <div class="sidebar-head-label" id="sidebarHeadLabel">Your Assigned Sessions</div>
+        <button class="icon-btn sidebar-toggle" id="sidebarCollapseBtn" type="button" aria-label="Collapse session list" title="Collapse session list">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10,3 5,8 10,13"/></svg>
+        </button>
+      </div>
+      <div class="sidebar-list" id="sidebarList"></div>
+      <div class="sidebar-rail">
+        <button class="icon-btn sidebar-toggle" id="sidebarExpandBtn" type="button" aria-label="Expand session list" title="Expand session list">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,3 11,8 6,13"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="main" id="mainPanel">
+      <div class="mobile-back" id="mobileBack">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10,3 5,8 10,13"/></svg>
+        <span>All sessions</span>
+      </div>
+      <div class="main-content" id="mainContent"></div>
+    </div>
+  </div>
+
+  <div id="adminDash"></div>
+</div>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="menu-drawer" id="menuDrawer">
+  <div class="menu-drawer-head">
+    <div class="menu-drawer-title">Menu</div>
+    <button class="icon-btn" id="menuCloseBtn" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+    </button>
+  </div>
+  <div class="menu-user" id="menuUserLabel">Logged in as: —</div>
+  <button class="btn btn-ghost" id="signOutBtn">Sign out</button>
+
+  <div class="divider"></div>
+  <div class="section-label">Key reminders</div>
+  <div class="todo-note">Placeholder content — replace with Wave's real reminders.</div>
+  <div class="reminder-item"><span class="reminder-icon">⚠️</span><span class="reminder-text">Never leave equipment unattended at a site.</span></div>
+  <div class="reminder-item"><span class="reminder-icon">⚠️</span><span class="reminder-text">Confirm participant ID before starting any recording.</span></div>
+  <div class="reminder-item"><span class="reminder-icon">⚠️</span><span class="reminder-text">Do not clear a memory card until footage is confirmed uploaded.</span></div>
+
+  <div class="divider"></div>
+  <div class="section-label">Troubleshooting</div>
+  <div class="todo-note">Placeholder content — replace with Wave's real troubleshooting guide.</div>
+  <div class="trouble-wrap">
+    <div class="trouble-row trouble-header"><div class="tc">Issue</div><div class="tc">Resolution</div></div>
+    <div class="trouble-row"><div class="tc issue">Camera won't power on</div><div class="tc resolution">Check battery seating; swap to backup battery</div></div>
+    <div class="trouble-row"><div class="tc issue">App won't sync</div><div class="tc resolution">Check connectivity; progress is saved locally and retries automatically</div></div>
+  </div>
+
+  <div class="todo-note" id="versionLabel" style="text-align:center;margin-top:8px"></div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay"></div>
+<div class="modal" id="modal"></div>
+
+<script>
+/* ============================================================
+   PROJECT WAVE — Moderator Checklist App
+   Single-file HTML + vanilla JS. See Reference Files/Team Shared
+   Guidelines/ARCHITECTURE_REFERENCE.md and App_Build_Workflow_and
+   _Replication_Guide.md for the patterns this file follows.
+
+   Backend: SharePoint Lists via Power Automate flows (NOT Excel —
+   see Dev_Notes.md "Known divergence" note). Flow URLs below are
+   dormant (empty string) until wired; the app falls back to local
+   placeholder data so the UI is fully testable before any flow exists.
+   ============================================================ */
+
+const APP_VERSION = '0.1.082426'; // MAJOR.MINOR.MMDDYY — bump date on every change
+
+// === Power Automate flow URLs (SharePoint Lists) — dormant until wired ===
+const MODERATORS_READ_URL   = ''; // Get items — Moderators list, filter by username
+const SESSIONS_READ_URL     = ''; // Get items — Sessions list, filter by moderator_id
+const SESSIONS_WRITE_URL    = ''; // Update item — Sessions list (status, notes)
+const SESSIONLOG_WRITE_URL  = ''; // Create item — SessionLog list (append-only step/phase events)
+
+const LAST_LOGIN_KEY = 'wave_last_login';
+const SIDEBAR_COLLAPSED_KEY = 'wave_sidebar_collapsed';
+
+/* ------------------------------------------------------------
+   PLACEHOLDER DATA — used only while the read URLs above are
+   empty, so the checklist is clickable before SharePoint Lists
+   and flows exist. Replace/remove once SESSIONS_READ_URL is live.
+   ------------------------------------------------------------ */
+const PLACEHOLDER_MODERATORS = [
+  { moderator_id: 'moderator',      username: 'moderator',        name: 'Demo Moderator',  site_assigned: 'Demo',      active: 'true', role: 'moderator' },
+  { moderator_id: 'admin',          username: 'admin',            name: 'Demo Admin',      site_assigned: 'All',       active: 'true', role: 'admin' },
+  { moderator_id: 'riley.robertson', username: 'riley.robertson', name: 'Riley Robertson', site_assigned: 'Redmond', active: 'true', role: 'moderator' },
+  { moderator_id: 'david.kang',      username: 'david.kang',      name: 'David Kang',      site_assigned: 'Las Vegas', active: 'true', role: 'moderator' },
+  { moderator_id: 'wave.admin',      username: 'wave.admin',      name: 'Wave Admin',      site_assigned: 'All', active: 'true', role: 'admin' },
+];
+
+function buildPhaseSteps() {
+  const hydraNote = 'For the following steps, use the Hydra app to record all required scenarios. Hydra will guide you through the session and give you opportunities to check each recording before accepting and proceeding to the next scenario.';
+  const scenarioChecks = [
+    { kind: 'section', key: 'before_recording', t: 'Before Recording', note: 'The following checks should be done for every camera placement throughout the scenario. Mark these tasks as finished once the entire recording is complete.' },
+    { key: 'camera_orientation', t: 'Camera Orientation', description: 'Flat radar side of rig facing the middle of the room (or the direction where the participant will be most)' },
+    { key: 'camera_placement', t: 'Camera Placement', description: 'The device is placed close to the edge of the surface and firmly secured.' },
+    { key: 'camera_obstructions', t: 'Camera Obstructions', description: "Nothing blocking the camera's view of the room and participant movement." },
+    { kind: 'section', key: 'after_recording', t: 'After Recording', note: 'After a scenario recording has been completed, use the video/audio preview in Hydra for the 3 following checks. Re-record the scenario if any of the requirements are not met.' },
+    { key: 'video_check', t: 'Video Check', description: 'Video not blurry, no cables in view, moderator not visible at any point' },
+    { key: 'audio_check', t: 'Audio Check', description: 'Recorded audio is clear, no static, etc.' },
+    { key: 'performance_check', t: 'Performance Check', description: 'Participant meets all scenario movement requirements' },
+  ];
+  const scenarioParent = code => ({
+    kind: 'parent',
+    key: `scenario_${code.toLowerCase()}`,
+    t: `Scenario ${code}`,
+    children: scenarioChecks.map(item => ({
+      kind: item.kind || 'child-detailed',
+      key: `${code.toLowerCase()}_${item.key}`,
+      t: item.t,
+      description: item.description,
+      note: item.note,
+    })),
+  });
+  return [
+    {
+      key: 'equipment_pickup',
+      title: 'Device Prep',
+      steps: [
+        { t: 'Inspect all devices for visible damage', noteField: 'Condition notes' },
+        { t: 'Inspect Insta360 lens for scratches or dust', warn: 'Do not proceed with a cracked or occluded lens' },
+        { t: 'Confirm memory card is empty and formatted' },
+        { t: 'Confirm battery charge is at least 80%' },
+        { t: 'Verify microphone gain is +24 dB' },
+        { t: 'Verify camera resolution/framerate: 360 mode, 8K and 30 FPS' },
+      ],
+    },
+    {
+      key: 'session',
+      title: 'Session Checklist',
+      steps: [
+        { kind: 'child-title', key: 'greet_confirm_ids', t: 'Greet participants and confirm IDs' },
+        { kind: 'child-title', key: 'confirm_signed_nda', t: 'Confirm signed NDA form' },
+        { kind: 'child-title', key: 'participant_orientation', t: 'Participant orientation' },
+        { kind: 'info', title: 'Hydra App', t: hydraNote },
+        { kind: 'child-title', key: 'complete_hydra_intake', t: 'Complete Hydra intake' },
+        scenarioParent('T1'),
+        scenarioParent('A1'),
+        scenarioParent('A2'),
+        scenarioParent('M1'),
+      ],
+    },
+    {
+      key: 'post_session',
+      title: 'Post-Session',
+      steps: [
+        { t: 'Complete ingestion in Hydra' },
+        { t: 'Create Feather task and complete metadata entry' },
+        { t: 'Upload TAR File' },
+        { t: 'Inspect, clean, and repack equipment' },
+        { t: 'Return equipment' },
+      ],
+    },
+  ];
+}
+
+/* Fake contacts from fake_contacts2.csv — stand-in participants only. */
+const PLACEHOLDER_CONTACTS = [
+  { name: 'Sarah Mitchell', email: 'sarah.mitchell@fakeemail.com' },
+  { name: 'Michael Chen', email: 'michael.chen@fakeemail.com' },
+  { name: 'Lisa Rodriguez', email: 'lisa.rodriguez@fakeemail.com' },
+  { name: 'Arjun Patel', email: 'arjun.patel@fakeemail.com' },
+  { name: 'Jessica Thompson', email: 'jessica.thompson@fakeemail.com' },
+  { name: 'Kevin Foster', email: 'kevin.foster@fakeemail.com' },
+  { name: 'Natalie Young', email: 'natalie.young@fakeemail.com' },
+  { name: 'Marcus Washington', email: 'marcus.washington@fakeemail.com' },
+  { name: 'Rachel Green', email: 'rachel.green@fakeemail.com' },
+  { name: 'Thomas Anderson', email: 'thomas.anderson@fakeemail.com' },
+];
+
+/** "Sarah Mitchell" → "Sarah M."  Used to label sessions in the sidebar. */
+function shortParticipantName(fullName) {
+  const parts = String(fullName || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '';
+  if (parts.length === 1) return parts[0];
+  return `${parts[0]} ${parts[parts.length - 1].charAt(0).toUpperCase()}.`;
+}
+
+function sessionLabel(session) {
+  const names = session.participants || [];
+  if (names.length) return names.map(shortParticipantName).join(' / ');
+  return session.participant_id || '';
+}
+
+function makePlaceholderSession({ id, moderator_id, site_id, session_type, scheduled_date, scheduled_time, participants }) {
+  return {
+    session_id: id,
+    moderator_id,
+    participants, // full names; UI displays first name + last initial
+    participant_id: participants.map(shortParticipantName).join(' / '),
+    site_id,
+    session_type,
+    scheduled_date, // YYYY-MM-DD
+    scheduled_time,
+    scheduled_at: `${scheduled_date}T${to24h(scheduled_time)}`,
+    status: 'in_progress',
+    notes: '',
+    phases: buildPhaseSteps(session_type),
+  };
+}
+
+function to24h(timeStr) {
+  const m = String(timeStr || '').trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!m) return '00:00:00';
+  let h = parseInt(m[1], 10);
+  const min = m[2];
+  const ap = m[3].toUpperCase();
+  if (ap === 'AM' && h === 12) h = 0;
+  if (ap === 'PM' && h !== 12) h += 12;
+  return `${String(h).padStart(2, '0')}:${min}:00`;
+}
+
+function formatSessionWhen(session) {
+  if (!session.scheduled_date) return session.scheduled_time || '';
+  const d = new Date(`${session.scheduled_date}T12:00:00`);
+  const datePart = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  return session.scheduled_time ? `${datePart} · ${session.scheduled_time}` : datePart;
+}
+
+function placeholderSessions(moderatorId) {
+  const c = PLACEHOLDER_CONTACTS;
+  const all = [
+    makePlaceholderSession({ id: 'sess_r01', moderator_id: 'riley.robertson', site_id: 'Redmond', session_type: 'single', scheduled_date: '2026-08-20', scheduled_time: '9:00 AM',  participants: [c[0].name] }),
+    makePlaceholderSession({ id: 'sess_r02', moderator_id: 'riley.robertson', site_id: 'Redmond', session_type: 'paired', scheduled_date: '2026-08-21', scheduled_time: '11:30 AM', participants: [c[1].name, c[2].name] }),
+    makePlaceholderSession({ id: 'sess_r03', moderator_id: 'riley.robertson', site_id: 'Redmond', session_type: 'single', scheduled_date: '2026-08-24', scheduled_time: '2:00 PM',  participants: [c[3].name] }),
+    makePlaceholderSession({ id: 'sess_r04', moderator_id: 'riley.robertson', site_id: 'Redmond', session_type: 'paired', scheduled_date: '2026-08-25', scheduled_time: '4:00 PM',  participants: [c[4].name, c[5].name] }),
+    makePlaceholderSession({ id: 'sess_d01', moderator_id: 'david.kang', site_id: 'Las Vegas', session_type: 'single', scheduled_date: '2026-08-20', scheduled_time: '10:00 AM', participants: [c[6].name] }),
+    makePlaceholderSession({ id: 'sess_d02', moderator_id: 'david.kang', site_id: 'Las Vegas', session_type: 'paired', scheduled_date: '2026-08-22', scheduled_time: '1:00 PM',  participants: [c[7].name, c[8].name] }),
+    makePlaceholderSession({ id: 'sess_d03', moderator_id: 'david.kang', site_id: 'Las Vegas', session_type: 'single', scheduled_date: '2026-08-26', scheduled_time: '3:30 PM',  participants: [c[9].name] }),
+  ];
+  const tickAll = session => {
+    const walk = tasks => (tasks || []).forEach(task => {
+      if (task.kind === 'info' || task.kind === 'section') return;
+      if (task.children) walk(task.children);
+      else task.done = true;
+    });
+    (session.phases || []).forEach(phase => walk(phase.steps));
+    session.status = 'completed';
+    return session;
+  };
+  tickAll(all[0]);
+  tickAll(all[1]);
+  const rileySessions = all.filter(s => s.moderator_id === 'riley.robertson');
+  const demo = rileySessions.map(session => {
+    const copy = {
+      ...session,
+      session_id: `demo_${session.session_id}`,
+      moderator_id: 'moderator',
+      phases: buildPhaseSteps(),
+    };
+    return session.status === 'completed' ? tickAll(copy) : copy;
+  });
+  const sessions = [...all, ...demo];
+  return moderatorId ? sessions.filter(s => s.moderator_id === moderatorId) : sessions;
+}
+
+/** Demo metrics for the admin dashboard (not live SharePoint). Hours are useable video minutes / 60. */
+const HOURS_TARGET = 100;
+function placeholderAdminStats() {
+  return {
+    hoursCollected: 31.4,
+    hoursTarget: HOURS_TARGET,
+    sessionsCompleted: 48,
+    sessionsScheduled: 87,
+    sitesActive: 2,
+    moderatorsActive: 2,
+    abandoned: 3,
+    shortVideos: 2,
+    byType: [
+      { label: 'Single', hours: 18.1, sessions: 31, color: 'pink' },
+      { label: 'Paired', hours: 13.3, sessions: 17, color: 'blue' },
+    ],
+    bySite: [
+      { label: 'Redmond', hours: 16.8, sessions: 26 },
+      { label: 'Las Vegas', hours: 14.6, sessions: 22 },
+    ],
+    byDay: [
+      { label: 'Mon 17', hours: 4.2, sessions: 6 },
+      { label: 'Tue 18', hours: 5.1, sessions: 8 },
+      { label: 'Wed 19', hours: 3.8, sessions: 5 },
+      { label: 'Thu 20', hours: 6.4, sessions: 9 },
+      { label: 'Fri 21', hours: 5.9, sessions: 8 },
+      { label: 'Sat 22', hours: 3.1, sessions: 4 },
+      { label: 'Sun 23', hours: 2.9, sessions: 8 },
+    ],
+    byModerator: [
+      { name: 'Riley Robertson', site: 'Redmond', scheduled: 44, completed: 26, hours: 16.8, rate: 59 },
+      { name: 'David Kang', site: 'Las Vegas', scheduled: 43, completed: 22, hours: 14.6, rate: 51 },
+    ],
+  };
+}
+
+/* ------------------------------------------------------------ STATE */
+function defaultState() {
+  return {
+    username: '', userProfile: null, theme: 'dark',
+    sessions: {},          // session_id -> session object (working copy, mutated as steps are ticked)
+    currentSessionId: null,
+    currentPhaseKey: null,
+    currentParentKey: null, // selected nested parent; drives desktop pane + mobile drill-in
+  };
+}
+let state = defaultState();
+
+function sessionKeyFor(username) { return `wave_session_v19_${username.toLowerCase()}`; }
+
+function saveState() {
+  if (!state.username) return;
+  try { localStorage.setItem(sessionKeyFor(state.username), JSON.stringify(state)); }
+  catch (e) { console.warn('[Wave] saveState failed:', e); }
+}
+
+function loadState(username) {
+  try {
+    const raw = localStorage.getItem(sessionKeyFor(username));
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) { return null; }
+}
+
+function setLastLoginUsername(u) { try { localStorage.setItem(LAST_LOGIN_KEY, u); } catch (e) {} }
+function getLastLoginUsername() { try { return localStorage.getItem(LAST_LOGIN_KEY); } catch (e) { return null; } }
+
+/* ------------------------------------------------------------ CLOUD READ/WRITE (dormant-until-wired) */
+function extractArray(data) {
+  if (!data) return [];
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data.value)) return data.value;
+  if (Array.isArray(data.rows)) return data.rows;
+  return [];
+}
+
+async function readRows(url) {
+  if (!url) return null; // null = "not wired", distinct from [] = "wired but empty"
+  try {
+    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}), cache: 'no-store' });
+    if (!res.ok) { console.warn(`[Wave] read failed: HTTP ${res.status}`); return null; }
+    const data = await res.json();
+    return extractArray(data);
+  } catch (e) { console.warn('[Wave] read threw:', e.message); return null; }
+}
+
+async function writeRow(url, row) {
+  if (!url) { console.log('[Wave] write skipped (flow not wired):', row); return false; }
+  try {
+    const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(row) });
+    return res.ok;
+  } catch (e) { console.warn('[Wave] write threw:', e.message); return false; }
+}
+
+function logSessionEvent(sessionId, event, extra) {
+  const row = Object.assign({
+    log_id: `log_${state.username}_${sessionId}_${Date.now()}`,
+    session_id: sessionId, event, moderator: state.username,
+    timestamp: new Date().toISOString(),
+  }, extra || {});
+  writeRow(SESSIONLOG_WRITE_URL, row); // append-only, fire-and-forget
+}
+
+/* ------------------------------------------------------------ LOGIN */
+function canonicalize(u) { return (u || '').trim().toLowerCase(); }
+
+async function doLogin(usernameRaw) {
+  const usernameInput = document.getElementById('loginUsername');
+  const errorEl = document.getElementById('loginError');
+  const btn = document.getElementById('loginBtn');
+  errorEl.textContent = '';
+  usernameInput.classList.remove('error');
+
+  const username = canonicalize(usernameRaw);
+  if (!username) { errorEl.textContent = 'Enter your username.'; return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  const directory = (await readRows(MODERATORS_READ_URL)) || PLACEHOLDER_MODERATORS;
+  const profile = directory.find(m => canonicalize(m.username) === username);
+
+  btn.disabled = false;
+  btn.textContent = 'Sign in';
+
+  if (!profile) {
+    usernameInput.classList.add('error');
+    usernameInput.parentElement.classList.add('shake');
+    setTimeout(() => usernameInput.parentElement.classList.remove('shake'), 400);
+    errorEl.textContent = 'Username not recognized. Check spelling and try again.';
+    return;
+  }
+
+  const saved = loadState(username);
+  state = (saved && saved.username === username) ? saved : defaultState();
+  state.username = username;
+  state.userProfile = profile;
+
+  if (isAdmin(profile)) {
+    state.sessions = {};
+    setLastLoginUsername(username);
+    saveState();
+    showApp();
+    return;
+  }
+
+  const rows = await readRows(SESSIONS_READ_URL);
+  const sessionRows = (rows || placeholderSessions()).filter(s => sessionAssignedTo(s, profile));
+  // Keep in-progress local ticks only for sessions still assigned to this moderator.
+  const nextSessions = {};
+  sessionRows.forEach(s => { nextSessions[s.session_id] = state.sessions[s.session_id] || s; });
+  state.sessions = nextSessions;
+  if (state.currentSessionId && !state.sessions[state.currentSessionId]) {
+    state.currentSessionId = null;
+    state.currentPhaseKey = null;
+  }
+
+  setLastLoginUsername(username);
+  saveState();
+  showApp();
+}
+
+/* ------------------------------------------------------------ RENDER: SHELL */
+function isMobile() { return window.innerWidth <= 760; }
+
+function isSidebarCollapsed() {
+  try { return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === '1'; } catch (e) { return false; }
+}
+function applySidebarCollapsed() {
+  const sidebar = document.getElementById('sidebar');
+  if (!sidebar) return;
+  sidebar.classList.toggle('collapsed', !isMobile() && isSidebarCollapsed());
+}
+function setSidebarCollapsed(collapsed) {
+  try { localStorage.setItem(SIDEBAR_COLLAPSED_KEY, collapsed ? '1' : '0'); } catch (e) {}
+  applySidebarCollapsed();
+}
+
+function isAdmin(profile) {
+  const p = profile || state.userProfile;
+  if (!p) return false;
+  return canonicalize(p.role) === 'admin' || canonicalize(p.username) === 'wave.admin';
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  document.documentElement.setAttribute('data-theme', state.theme || 'dark');
+  document.getElementById('versionLabel').textContent = `Wave v${APP_VERSION}`;
+  const admin = isAdmin();
+  document.getElementById('moderatorLayout').style.display = admin ? 'none' : 'flex';
+  document.getElementById('adminDash').classList.toggle('visible', admin);
+  if (admin) {
+    renderAdminDashboard();
+  } else {
+    applySidebarCollapsed();
+    renderApp();
+  }
+}
+
+function barRows(items, maxVal) {
+  const max = maxVal || Math.max(...items.map(i => i.hours), 0.01);
+  return items.map(i => {
+    const fill = i.color === 'blue' ? ' blue' : i.color === 'green' ? ' green' : '';
+    return `
+    <div class="bar-row">
+      <div class="bar-label">${escapeHTML(i.label)}</div>
+      <div class="bar-track"><div class="bar-fill${fill}" style="width:${Math.round((i.hours / max) * 100)}%"></div></div>
+      <div class="bar-val">${i.hours}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAdminDashboard() {
+  const s = placeholderAdminStats();
+  const pct = Math.round((s.hoursCollected / s.hoursTarget) * 100);
+  const completeRate = Math.round((s.sessionsCompleted / s.sessionsScheduled) * 100);
+  const el = document.getElementById('adminDash');
+  el.innerHTML = `
+    <div class="dash-body">
+      <div class="dash-hero">
+        <div class="dash-kicker">Project leadership · demo data</div>
+        <div class="dash-title">Collection progress</div>
+        <div class="dash-sub">${s.hoursCollected} of ${s.hoursTarget} useable hours toward the video target</div>
+        <div class="hours-track"><div class="hours-fill" style="width:${pct}%"></div></div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi-card accent">
+          <div class="kpi-top-row"><div class="kpi-label">Hours collected</div></div>
+          <div class="kpi-bottom-row">
+            <div class="kpi-sub">${pct}% of ${s.hoursTarget}h target</div>
+            <div class="kpi-value-xl">${s.hoursCollected}<span class="kpi-suffix">h</span></div>
+          </div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-top-row"><div class="kpi-label">Sessions complete</div></div>
+          <div class="kpi-bottom-row">
+            <div class="kpi-sub">${s.sessionsCompleted} of ${s.sessionsScheduled} scheduled</div>
+            <div class="kpi-value-xl">${s.sessionsCompleted}</div>
+          </div>
+        </div>
+        <div class="kpi-card blue">
+          <div class="kpi-top-row"><div class="kpi-label">Active sites</div></div>
+          <div class="kpi-bottom-row">
+            <div class="kpi-sub">${s.moderatorsActive} moderators in field</div>
+            <div class="kpi-value-xl">${s.sitesActive}</div>
+          </div>
+        </div>
+        <div class="kpi-card amber">
+          <div class="kpi-top-row"><div class="kpi-label">Completion rate</div></div>
+          <div class="kpi-bottom-row">
+            <div class="kpi-sub">completed / scheduled</div>
+            <div class="kpi-value-xl">${completeRate}<span class="kpi-suffix">%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flag-row">
+        <div class="flag-chip warn"><strong>${s.abandoned}</strong> abandoned sessions</div>
+        <div class="flag-chip bad"><strong>${s.shortVideos}</strong> very short videos flagged</div>
+        <div class="flag-chip"><strong>Single ${s.byType[0].hours}h</strong> · Paired ${s.byType[1].hours}h</div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title">Hours by site</div>
+          <div class="chart-sub">Useable minutes converted to hours</div>
+          ${barRows(s.bySite)}
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">Hours by session type</div>
+          <div class="chart-sub">Single vs paired collection</div>
+          ${barRows(s.byType)}
+        </div>
+        <div class="chart-card full">
+          <div class="chart-title">Daily useable hours</div>
+          <div class="chart-sub">Last 7 days — demo series</div>
+          ${barRows(s.byDay)}
+        </div>
+      </div>
+
+      <div class="chart-card full">
+        <div class="chart-title">Moderator summary</div>
+        <div class="chart-sub">Demo roster — not live SharePoint</div>
+        <table class="detail-table">
+          <thead><tr>
+            <th>Moderator</th><th>Site</th><th>Completed</th><th>Hours</th><th>Completion rate</th>
+          </tr></thead>
+          <tbody>
+            ${s.byModerator.map(m => `
+              <tr>
+                <td><span class="mod-pill">${escapeHTML(m.name)}</span></td>
+                <td style="color:var(--text2)">${escapeHTML(m.site)}</td>
+                <td style="font-size:18px;font-weight:600;color:var(--pink)">${m.completed}<span style="font-size:12px;font-weight:400;color:var(--text3)"> / ${m.scheduled}</span></td>
+                <td style="font-size:16px;font-weight:600">${m.hours}h</td>
+                <td>
+                  <span style="font-weight:700;color:${m.rate >= 80 ? 'var(--green)' : m.rate >= 50 ? 'var(--amber)' : 'var(--text)'}">${m.rate}%</span>
+                  <span class="prog-mini"><span class="prog-mini-fill" style="width:${m.rate}%"></span></span>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+      <p class="demo-note">These figures are stand-in data for UI review. They will be replaced by SessionLog queries once Power Automate is wired.</p>
+    </div>`;
+}
+
+function renderApp() {
+  renderSidebar();
+  renderMainContent();
+}
+
+function sessionAssignedTo(session, profile) {
+  if (!session || !profile) return false;
+  const mine = canonicalize(profile.moderator_id || profile.username);
+  const owner = canonicalize(session.moderator_id || session.moderator);
+  return !!mine && owner === mine;
+}
+
+function allSessions() {
+  return Object.values(state.sessions).filter(s => sessionAssignedTo(s, state.userProfile));
+}
+
+function isParentTask(task) { return task?.kind === 'parent'; }
+function isCheckableStep(task) {
+  return !!task && task.kind !== 'info' && task.kind !== 'section' && !isParentTask(task);
+}
+function taskLeaves(task) {
+  if (!task) return [];
+  if (isParentTask(task)) return (task.children || []).flatMap(taskLeaves);
+  return isCheckableStep(task) ? [task] : [];
+}
+function phaseLeaves(phase) {
+  return (phase?.steps || []).flatMap(taskLeaves);
+}
+function taskComplete(task) {
+  if (isParentTask(task)) {
+    const children = taskLeaves(task);
+    return children.length > 0 && children.every(child => child.done);
+  }
+  return !!task?.done;
+}
+function priorTasksComplete(steps, index) {
+  return steps.slice(0, index)
+    .filter(task => task.kind !== 'info' && task.kind !== 'section')
+    .every(taskComplete);
+}
+function phaseComplete(phase) {
+  const leaves = phaseLeaves(phase);
+  return leaves.length > 0 && leaves.every(task => task.done);
+}
+function sessionComplete(session) { return session.phases.every(phaseComplete); }
+function totalSteps(session) { return session.phases.reduce((n, phase) => n + phaseLeaves(phase).length, 0); }
+function doneSteps(session) { return session.phases.reduce((n, phase) => n + phaseLeaves(phase).filter(task => task.done).length, 0); }
+
+function renderSidebar() {
+  const el = document.getElementById('sidebarList');
+  const sessions = allSessions().sort((a, b) => String(a.scheduled_at || '').localeCompare(String(b.scheduled_at || '')));
+  el.innerHTML = '';
+  sessions.forEach(s => {
+    const complete = sessionComplete(s);
+    const item = document.createElement('div');
+    item.className = 'sess-item' + (state.currentSessionId === s.session_id ? ' active' : '') + (complete ? ' done' : '');
+    item.innerHTML = `
+      <div class="sess-item-top">
+        <span class="sess-time">${escapeHTML(formatSessionWhen(s))}</span>
+        <span class="sess-type-chip${s.session_type === 'paired' ? ' paired' : ''}">${escapeHTML(s.session_type)}</span>
+      </div>
+      <div class="sess-pid">${escapeHTML(sessionLabel(s))} · ${escapeHTML(s.site_id)}</div>
+      ${s.status === 'completed'
+        ? '<div class="sess-completed-pill">completed</div>'
+        : `<div class="sess-phase-dots">${s.phases.map(p => `<span class="phase-dot ${phaseComplete(p) ? 'complete' : (phaseLeaves(p).some(task => task.done) ? 'partial' : '')}"></span>`).join('')}</div>`}
+    `;
+    item.addEventListener('click', () => openSession(s.session_id));
+    el.appendChild(item);
+  });
+}
+
+function openSession(sessionId) {
+  state.currentSessionId = sessionId;
+  const session = state.sessions[sessionId];
+  state.currentPhaseKey = session.phases.find(p => !phaseComplete(p))?.key || session.phases[0].key;
+  state.currentParentKey = null;
+  if (isMobile()) {
+    document.getElementById('sidebar').classList.add('hidden');
+    document.getElementById('mainPanel').classList.remove('hidden');
+  }
+  renderApp();
+}
+
+function backToSessionList() {
+  state.currentSessionId = null;
+  state.currentParentKey = null;
+  document.getElementById('sidebar').classList.remove('hidden');
+  document.getElementById('mainPanel').classList.add('hidden');
+  renderApp();
+}
+
+/* ------------------------------------------------------------ RENDER: MAIN CONTENT */
+function renderInfoTask(task) {
+  return `<div class="list-section"><strong>${escapeHTML(task.title || 'Note')}</strong>${task.t ? `<div class="list-section-note">${escapeHTML(task.t)}</div>` : ''}</div>`;
+}
+
+function renderFlatPhaseTasks(phase) {
+  let number = 0;
+  return `
+    <ul class="steps-list">
+      ${(phase.steps || []).map((task, index) => {
+        if (task.kind === 'info') {
+          return `<li class="list-section"><strong>${escapeHTML(task.title || 'Note')}</strong>${task.t ? `<div class="list-section-note">${escapeHTML(task.t)}</div>` : ''}</li>`;
+        }
+        number += 1;
+        return `
+          <li class="step-item" data-step-idx="${index}">
+            <div class="step-dot${task.done ? ' done' : ''}">
+              <span class="step-num">${number}</span>
+              <div class="step-tick"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9.5 10.5,3"/></svg></div>
+            </div>
+            <div class="step-content">
+              <span class="step-text${task.done ? ' done-text' : ''}">${escapeHTML(task.t)}</span>${task.meta ? `<span class="step-meta">${escapeHTML(task.meta)}</span>` : ''}
+              ${task.warn ? `<div class="warn-box">${escapeHTML(task.warn)}</div>` : ''}
+              ${task.noteField ? `<label class="step-note-label">${escapeHTML(task.noteField)}</label><textarea class="step-note" data-step-idx="${index}" rows="3" placeholder="${escapeAttr(task.noteField)}">${escapeHTML(task.note || '')}</textarea>` : ''}
+              ${task.ref_media_id ? `<div class="ref-media-box">Reference media not yet configured (${escapeHTML(task.ref_media_id)})</div>` : ''}
+            </div>
+          </li>`;
+      }).join('')}
+    </ul>`;
+}
+
+function renderNestedPhaseTasks(phase) {
+  const steps = phase.steps || [];
+  const selectedIndex = steps.findIndex(task => isParentTask(task) && task.key === state.currentParentKey);
+  const selected = selectedIndex >= 0 && priorTasksComplete(steps, selectedIndex) ? steps[selectedIndex] : null;
+  const selectedChildren = selected?.children || [];
+  const selectedLeaves = taskLeaves(selected);
+  const selectedDone = selectedLeaves.filter(child => child.done).length;
+  let number = 0;
+
+  return `
+    <div class="task-browser${selected ? ' drilled' : ''}">
+      <div class="task-browser-track">
+        <div class="task-pane parent-level">
+          <ul class="task-parent-list">
+            ${steps.map((task, index) => {
+              if (task.kind === 'info') {
+                return `<li>${renderInfoTask(task)}</li>`;
+              }
+              number += 1;
+              if (isParentTask(task)) {
+                const children = taskLeaves(task);
+                const done = children.filter(child => child.done).length;
+                const locked = !priorTasksComplete(steps, index);
+                return `
+                <li>
+                  <button type="button" class="parent-task${selected?.key === task.key ? ' active' : ''}" data-parent-key="${escapeAttr(task.key)}"${locked ? ' disabled aria-disabled="true"' : ''}>
+                    <span class="step-dot${taskComplete(task) ? ' done' : ''}">
+                      <span class="step-num">${number}</span>
+                      <span class="step-tick"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9.5 10.5,3"/></svg></span>
+                    </span>
+                    <span class="parent-copy">
+                      <span class="parent-title">${escapeHTML(task.t)}</span>
+                      <span class="parent-progress">${locked ? 'Complete previous tasks to unlock' : `${done} of ${children.length} tasks`}</span>
+                    </span>
+                    ${locked
+                      ? '<span class="parent-lock" aria-hidden="true"><svg viewBox="0 0 16 16"><rect x="3.5" y="7" width="9" height="6.5" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg></span>'
+                      : '<span class="parent-arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><polyline points="6,3 11,8 6,13"/></svg></span>'}
+                  </button>
+                </li>`;
+              }
+              return `
+                <li>
+                  <button type="button" class="parent-task checkable-root" data-step-idx="${index}">
+                    <span class="step-dot${task.done ? ' done' : ''}">
+                      <span class="step-num">${number}</span>
+                      <span class="step-tick"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9.5 10.5,3"/></svg></span>
+                    </span>
+                    <span class="parent-copy">
+                      <span class="parent-title${task.done ? ' done' : ''}">${escapeHTML(task.t)}</span>
+                    </span>
+                  </button>
+                </li>`;
+            }).join('')}
+          </ul>
+        </div>
+
+        <div class="task-pane child-level">
+          <button class="child-back" type="button">
+            <svg viewBox="0 0 16 16"><polyline points="10,3 5,8 10,13"/></svg>
+            <span>Back to tasks</span>
+          </button>
+          ${selected ? `
+            <div class="child-pane-card">
+              <div class="child-pane-head">
+                <div class="child-pane-title">${escapeHTML(selected.t)}</div>
+                <div class="child-pane-progress">${selectedDone} of ${selectedLeaves.length} completed</div>
+              </div>
+              <ul class="task-child-list">
+                ${(() => {
+                  let childNumber = 0;
+                  return selectedChildren.map((child, index) => {
+                    if (child.kind === 'section') {
+                      return `<li class="child-section"><span class="child-section-title">${escapeHTML(child.t)}</span>${child.note ? `<div class="child-section-note">${escapeHTML(child.note)}</div>` : ''}</li>`;
+                    }
+                    childNumber += 1;
+                    return `
+                  <li class="child-task" data-parent-key="${escapeAttr(selected.key)}" data-child-idx="${index}">
+                    <span class="step-dot${child.done ? ' done' : ''}">
+                      <span class="step-num">${childNumber}</span>
+                      <span class="step-tick"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9.5 10.5,3"/></svg></span>
+                    </span>
+                    <span class="child-task-copy">
+                      <span class="child-task-title${child.done ? ' done' : ''}">${escapeHTML(child.t)}</span>
+                      ${child.kind === 'child-detailed' && child.description
+                        ? `<span class="child-task-desc${child.done ? ' done' : ''}">${escapeHTML(child.description)}</span>`
+                        : ''}
+                    </span>
+                  </li>`;
+                  }).join('');
+                })()}
+              </ul>
+            </div>`
+            : `<div class="parent-empty"><strong>Select a Scenario</strong><span>Subtasks will appear here.</span></div>`}
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderPhaseTasks(phase) {
+  return (phase.steps || []).some(isParentTask)
+    ? renderNestedPhaseTasks(phase)
+    : renderFlatPhaseTasks(phase);
+}
+
+function renderMainContent() {
+  const content = document.getElementById('mainContent');
+  const session = state.currentSessionId ? state.sessions[state.currentSessionId] : null;
+
+  if (!session) {
+    content.innerHTML = `
+      <div class="welcome-state">
+        <div class="welcome-icon"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,12 9,17 18,6"/></svg></div>
+        <div class="welcome-title">Select a session</div>
+        <div class="welcome-sub">Choose a session from the left to open its checklist.</div>
+      </div>`;
+    return;
+  }
+
+  const phase = session.phases.find(p => p.key === state.currentPhaseKey) || session.phases[0];
+  const done = doneSteps(session), total = totalSteps(session);
+
+  let html = `
+    <div class="sess-header">
+      <div class="sess-header-label">${escapeHTML(session.session_type)} session · ${done} of ${total} steps</div>
+      <div class="sess-header-title">${escapeHTML(sessionLabel(session))}</div>
+      <div class="meta-strip">
+        <span class="meta-chip">${escapeHTML(session.site_id)}</span>
+        <span class="meta-chip">${escapeHTML(formatSessionWhen(session))}</span>
+      </div>
+    </div>
+    <div class="seg-control">
+      ${session.phases.map(p => `
+        <button class="seg-btn${p.key === phase.key ? ' active' : ''}" data-phase="${p.key}">
+          ${phaseComplete(p)
+            ? '<span class="seg-check show" title="Complete" aria-label="Complete"><svg viewBox="0 0 12 12"><polyline points="1.5,6 4.5,9.5 10.5,3"/></svg></span>'
+            : '<span class="seg-pending" title="Incomplete" aria-label="Incomplete"><svg viewBox="0 0 12 12"><line x1="3" y1="6" x2="9" y2="6"/></svg></span>'}
+          ${escapeHTML(p.title)}
+        </button>`).join('')}
+    </div>
+    ${renderPhaseTasks(phase)}
+  `;
+
+  if (phase.key === 'post_session' && session.status !== 'completed') {
+    const canComplete = sessionComplete(session);
+    html += `
+      <div class="complete-form">
+        <label class="field-label">Notes (optional)</label>
+        <textarea id="notesInput" rows="3">${escapeHTML(session.notes)}</textarea>
+        <button class="btn btn-primary" id="completeSessionBtn"${canComplete ? '' : ' disabled'} title="${canComplete ? '' : 'Complete all checklist steps first'}">Complete session</button>
+      </div>`;
+  } else if (session.status === 'completed') {
+    html += `<div class="done-banner"><p>Session complete</p></div>`;
+  }
+
+  content.innerHTML = html;
+
+  content.querySelectorAll('.seg-btn').forEach(btn => btn.addEventListener('click', () => {
+    state.currentPhaseKey = btn.dataset.phase;
+    state.currentParentKey = null;
+    saveState();
+    renderMainContent();
+  }));
+  content.querySelectorAll('.parent-task[data-parent-key]').forEach(button => button.addEventListener('click', () => {
+    state.currentParentKey = button.dataset.parentKey;
+    saveState();
+    renderMainContent();
+  }));
+  content.querySelectorAll('.checkable-root').forEach(button => button.addEventListener('click', () => {
+    toggleStep(phase.key, parseInt(button.dataset.stepIdx, 10));
+  }));
+  content.querySelector('.child-back')?.addEventListener('click', () => {
+    state.currentParentKey = null;
+    saveState();
+    renderMainContent();
+  });
+  content.querySelectorAll('.child-task').forEach(item => item.addEventListener('click', () => {
+    toggleChildTask(phase.key, item.dataset.parentKey, parseInt(item.dataset.childIdx, 10));
+  }));
+  content.querySelectorAll('.step-item').forEach(item => item.addEventListener('click', e => {
+    if (e.target.closest('.step-note')) return; // typing notes must not toggle the step
+    toggleStep(phase.key, parseInt(item.dataset.stepIdx, 10));
+  }));
+  content.querySelectorAll('.step-note').forEach(ta => {
+    ta.addEventListener('click', e => e.stopPropagation());
+    ta.addEventListener('input', () => {
+      const session = state.sessions[state.currentSessionId];
+      const ph = session.phases.find(p => p.key === phase.key);
+      const step = ph.steps[parseInt(ta.dataset.stepIdx, 10)];
+      step.note = ta.value;
+      saveState();
+    });
+  });
+  const notesInput = document.getElementById('notesInput');
+  if (notesInput) {
+    notesInput.addEventListener('input', () => {
+      session.notes = notesInput.value;
+      saveState();
+    });
+  }
+  const completeBtn = document.getElementById('completeSessionBtn');
+  if (completeBtn) completeBtn.addEventListener('click', () => completeSession(session));
+}
+
+function toggleStep(phaseKey, stepIdx) {
+  const session = state.sessions[state.currentSessionId];
+  const phase = session.phases.find(p => p.key === phaseKey);
+  const step = phase.steps[stepIdx];
+  if (!isCheckableStep(step)) return;
+  step.done = !step.done;
+  logSessionEvent(session.session_id, step.done ? 'step_completed' : 'step_reopened', { phase: phaseKey, step: step.t });
+  saveState();
+  renderMainContent();
+  renderSidebar();
+}
+
+function toggleChildTask(phaseKey, parentKey, childIdx) {
+  const session = state.sessions[state.currentSessionId];
+  const phase = session.phases.find(item => item.key === phaseKey);
+  const parentIndex = phase?.steps.findIndex(task => isParentTask(task) && task.key === parentKey) ?? -1;
+  const parent = parentIndex >= 0 ? phase.steps[parentIndex] : null;
+  const child = parent?.children?.[childIdx];
+  if (!parent || !priorTasksComplete(phase.steps, parentIndex) || !isCheckableStep(child)) return;
+
+  child.done = !child.done;
+  logSessionEvent(session.session_id, child.done ? 'step_completed' : 'step_reopened', {
+    phase: phaseKey,
+    parent_key: parent.key,
+    parent: parent.t,
+    step_key: child.key,
+    step: child.t,
+  });
+  saveState();
+  renderMainContent();
+  renderSidebar();
+}
+
+async function completeSession(session) {
+  if (!sessionComplete(session) || session.status === 'completed') return;
+  const notesInput = document.getElementById('notesInput');
+  session.notes = notesInput.value;
+  session.status = 'completed';
+
+  await writeRow(SESSIONS_WRITE_URL, {
+    session_id: session.session_id, status: 'completed',
+    notes: session.notes,
+  });
+  logSessionEvent(session.session_id, 'session_completed');
+
+  saveState();
+  renderMainContent();
+  renderSidebar();
+  showToast('Session marked complete');
+}
+
+/* ------------------------------------------------------------ MENU DRAWER */
+function openMenu() {
+  document.getElementById('menuUserLabel').textContent = `Logged in as: ${state.username || '—'}`;
+  document.getElementById('menuOverlay').classList.add('open');
+  document.getElementById('menuDrawer').classList.add('open');
+}
+function closeMenu() {
+  document.getElementById('menuOverlay').classList.remove('open');
+  document.getElementById('menuDrawer').classList.remove('open');
+}
+
+function toggleTheme() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', state.theme);
+  saveState();
+}
+
+/* ------------------------------------------------------------ CONFIRM MODAL */
+function showModal({ title, message, confirmLabel, cancelLabel, onConfirm }) {
+  const overlay = document.getElementById('modalOverlay');
+  const modal = document.getElementById('modal');
+  modal.innerHTML = `<h3>${escapeHTML(title)}</h3><p>${escapeHTML(message)}</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="modalCancelBtn">${escapeHTML(cancelLabel || 'Cancel')}</button>
+      <button class="btn btn-primary" id="modalConfirmBtn">${escapeHTML(confirmLabel || 'Confirm')}</button>
+    </div>`;
+  const close = () => { overlay.classList.remove('open'); modal.classList.remove('open'); };
+  overlay.classList.add('open'); modal.classList.add('open');
+  overlay.onclick = close;
+  document.getElementById('modalCancelBtn').onclick = close;
+  document.getElementById('modalConfirmBtn').onclick = () => { close(); onConfirm(); };
+}
+
+function signOut() {
+  showModal({
+    title: 'Sign out?',
+    message: 'Your progress is saved on this device and will be restored next time you sign in.',
+    confirmLabel: 'Sign out',
+    onConfirm: () => {
+      closeMenu();
+      state = defaultState();
+      document.getElementById('app').classList.remove('visible');
+      document.getElementById('adminDash').classList.remove('visible');
+      document.getElementById('moderatorLayout').style.display = 'flex';
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('loginUsername').value = '';
+      try { localStorage.removeItem(LAST_LOGIN_KEY); } catch (e) {}
+    },
+  });
+}
+
+/* ------------------------------------------------------------ TOAST */
+function showToast(message, duration = 2800) {
+  let toast = document.getElementById('globalToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'globalToast';
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  void toast.offsetWidth;
+  toast.classList.add('show');
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer = setTimeout(() => toast.classList.remove('show'), duration);
+}
+
+/* ------------------------------------------------------------ UTIL */
+function escapeHTML(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function escapeAttr(s) { return escapeHTML(s); }
+
+/* ------------------------------------------------------------ EVENT WIRING */
+document.getElementById('loginBtn').addEventListener('click', () => doLogin(document.getElementById('loginUsername').value));
+document.getElementById('loginUsername').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(e.target.value); });
+document.getElementById('menuBtn').addEventListener('click', openMenu);
+document.getElementById('menuCloseBtn').addEventListener('click', closeMenu);
+document.getElementById('menuOverlay').addEventListener('click', closeMenu);
+document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+document.getElementById('signOutBtn').addEventListener('click', signOut);
+document.getElementById('mobileBack').addEventListener('click', backToSessionList);
+document.getElementById('sidebarCollapseBtn').addEventListener('click', () => setSidebarCollapsed(true));
+document.getElementById('sidebarExpandBtn').addEventListener('click', () => setSidebarCollapsed(false));
+window.addEventListener('resize', () => {
+  if (!isMobile()) {
+    document.getElementById('sidebar').classList.remove('hidden');
+    document.getElementById('mainPanel').classList.remove('hidden');
+  }
+  applySidebarCollapsed();
+});
+
+/* ------------------------------------------------------------ INIT: auto-resume */
+(function init() {
+  const lastUser = getLastLoginUsername();
+  if (lastUser) {
+    const saved = loadState(lastUser);
+    if (saved) { state = saved; showApp(); return; }
+  }
+  // Fresh login required — login screen is visible by default.
+})();
+</script>
+</body>
+</html>

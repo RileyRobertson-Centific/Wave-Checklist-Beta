@@ -2,27 +2,23 @@
 
 ## What is this project?
 
-Project Wave is a data-collection moderator app + admin dashboards for tracking video collection progress toward a 100-hour target. Moderators use a Kilo-style checklist interface to work through structured workflows. Admins see real-time dashboards tracking sessions, sites, and progress.
+Project Wave (on-screen brand for now: **mmWave**) is a data-collection moderator app plus an admin dashboard for tracking video collection toward a 100-hour target. Moderators use a Kilo-style checklist to work through assigned sessions. Admins see progress toward that target (demo metrics until SharePoint is wired).
 
-**Core features**:
+The working copy is a single file, `app.html`. SharePoint Lists and Power Automate are the intended backend; they are not wired yet, so the UI runs on local placeholder data.
 
-**Moderator app:**
-- **Checklist interface**: Sidebar showing today's assigned sessions. Click a session to see detailed steps and reference materials (clips/GIFs).
-- **Step tracking**: Each session has multiple steps. Moderators tick off as they go. The app tracks timestamps and completion status.
-- **Reference media**: Embedded clips/GIFs for moderators to see correct form or expected outcomes.
-- **Session logging**: Every step completion is logged to the backend (SessionLog table) for full audit trail.
-- **Reminders & guidance**: Menu panel with key reminders and troubleshooting.
+**Moderator app (in `app.html` today):**
+- Sign in with a username (no password). Client demo: `moderator`
+- Sidebar of **assigned** sessions only (not a global “today” list); can collapse on desktop
+- Session detail with phased checklists (Device Prep / Session Checklist / Post-Session)
+- Step ticks saved locally; writes to SessionLog when flows are wired
+- Menu: who is signed in, sign out, reminders, troubleshooting; theme toggle is in the nav
 
-**Admin app:**
-- **Progress dashboards**: Project leadership can see total hours collected, progress toward 100-hour target, active sites/moderators, completion rates, and trends.
-- **Session tracking**: View all sessions, filter by site/moderator/date, see completion status and useable minutes.
-- **Read-only**: Admins don't enter data; they monitor and report.
+**Admin app (in `app.html` today):**
+- Sign in as `admin` (no password)
+- Read-only Kilo-style dashboard: hours vs 100h target, sessions, sites, completion rate, breakdowns, moderator table
+- Figures are **demo stand-in data** until SessionLog is live
 
-**Scope**: Mobile-first (designed for phones), but responsive on tablets and desktop.
-
-**Backend**: SharePoint Lists + Power Automate flows. No approval workflow — moderators mark sessions complete, data flows to backend immediately.
-
-**Build**: Single `.html` file (moderator + optional admin view) deployed via GitHub Pages. Vanilla JavaScript, Kilo-style UI patterns.
+**Scope**: Mobile-first, also usable on tablet and desktop. Vanilla HTML/CSS/JS, GitHub Pages when we deploy.
 
 ---
 
@@ -34,39 +30,28 @@ Project Wave is a data-collection moderator app + admin dashboards for tracking 
 | `Dev_Notes.md` | Full working context: architecture decisions, to-do list, roadmap | Claude chats picking this up later |
 | `Changelog.md` | Version-by-version history of changes and why | Anyone curious about project evolution |
 | `Team_Handoff.md` | How to maintain/modify the app without the original owner | Human teammates inheriting this project |
-| `Reference Files/` | Project Orbit architectural reference, design system, team guidelines | All developers |
-| `app.html` | The complete app (not yet created) | Deployment & local development |
-| `index.html` | Symbolic link or copy of `app.html` for GitHub Pages | Deployed version |
+| `Reference Files/` | Orbit architecture, design system, team guidelines, Kilo UI reference | Anyone writing or extending the app |
+| `app.html` | The single-file moderator app (HTML + CSS + JS) | Local testing and the future deploy target |
+| `index.html` | Not created yet — GitHub Pages copy of `app.html` when we deploy | Deployed version |
+| `Session Checklist.xlsx` | Protocol source used for Session Checklist copy | Content owners / future copy updates |
 
 ---
 
 ## How the app is used
 
-### For Moderators
-1. Open Wave on their phone/tablet at the collection site
-2. Sign in with their username (validated against Moderators list)
-3. See today's assigned sessions in the sidebar
-4. Click a session to open the checklist
-5. Reference embedded clips/GIFs as needed
-6. Tick off each step as they complete it
-7. When done, mark session complete + record useable minutes
-8. All data syncs to SharePoint Lists in real-time
-9. Move to next session or end day
+### For Moderators (current local build)
+1. Open `app.html` in a browser
+2. Sign in as `moderator` (amber demo banner). Same four Redmond sessions as `riley.robertson`; Sarah M. and Michael C. / Lisa R. are already completed
+3. See **Your Assigned Sessions** in the sidebar
+4. Open a session, work through Device Prep → Session Checklist → Post-Session, then Complete session (button enables when all steps are done)
+5. When Power Automate is wired, step events and completion will sync to SharePoint
 
-**Typical flow**: Sign in → See sessions → Click session → Reference clips → Tick steps → Mark complete → Repeat
-
-**Data**: Every step completion, session start/end, and useable minutes is logged to SessionLog (immutable audit trail).
+**Typical flow**: Sign in → Assigned sessions → Open session → Tick steps → Mark complete → Repeat
 
 ### For Project Leadership (Admin view)
-1. Sign in as admin
-2. View progress dashboards:
-   - Total hours collected vs. 100-hour target
-   - Breakdown by session type (single vs. paired)
-   - Active sites and moderators today
-   - Completion rate and trending
-   - Quality flags (abandoned sessions, very short videos, etc.)
-3. Drill down: View all sessions, filter by site/date/moderator
-4. No data entry — read-only monitoring and reporting
+1. Open `app.html`, sign in as `admin`
+2. Review collection progress (hours vs 100-hour target, sessions, sites, moderator table)
+3. No data entry — monitoring only. Numbers are demo until the backend is wired.
 
 ---
 
@@ -74,7 +59,7 @@ Project Wave is a data-collection moderator app + admin dashboards for tracking 
 
 **Upstream**: A scheduling system (separate from Wave) assigns moderators to sites and sessions. Wave reads the assigned sessions at login.
 
-**Wave's role**: Ensures every step of the data-collection protocol is followed correctly. Provides reference materials (clips/GIFs). Logs every step completion for audit trail.
+**Wave's role**: Ensures the data-collection protocol is followed. Will provide reference clips/GIFs. Logs step completion for audit (SessionLog) once the backend is live.
 
 **Downstream**:
 - **QA process** (separate): The data team reviews recorded video against the SessionLog. If video doesn't match checklist, it's flagged. Wave's audit trail makes QA much easier.
@@ -114,8 +99,8 @@ If you're reopening this project in a new Claude chat:
 
 ## Version and status
 
-**Current version**: [See `Changelog.md`]  
-**Status**: [In progress / Shipped / Maintenance mode — documented in `Dev_Notes.md`]
+**Current version**: `0.1.082426` — details in `Changelog.md`  
+**Status**: Client-demo moderator UI with placeholder data; backend not wired. Details in `Dev_Notes.md`.
 
 For deployment instructions, see `Team_Handoff.md` → "Maintaining the application."
 
