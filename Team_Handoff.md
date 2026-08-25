@@ -9,8 +9,8 @@
 You're inheriting the Wave / **mmWave** moderator checklist (see `README.md` for what the product is). Display name in the app is **mmWave** for now.
 
 **Architecture**:
-- **Frontend**: Single `app.html` (Kilo-style UI). `index.html` for GitHub Pages is not created yet.
-- **Backend (planned)**: SharePoint Lists + Power Automate. Flow URL constants in `app.html` are empty; the current build uses placeholder data.
+- **Frontend**: Single-file Kilo-style UI. Until the demo is locked, keep **`demo.html` and `index.html` identical** (`index.html` is the GitHub Pages file). After that, work only on `index.html`.
+- **Backend (planned)**: SharePoint Lists + Power Automate. Flow URL constants in the HTML file are empty; the current build uses placeholder data.
 - **Moderators**: Sign in, see **only assigned sessions**, work through step checklists, mark complete. Client demo login: `moderator`.
 - **Admins**: Sign in as `admin` for a read-only demo dashboard (not live SharePoint).
 
@@ -27,15 +27,16 @@ You're inheriting the Wave / **mmWave** moderator checklist (see `README.md` for
 2. Describe what you want to change (e.g., "Add a new checkbox to the checklist," "Change the accent color to #00F0FF")
 3. Claude will propose changes and explain them
 4. When Claude is done, ask Claude to show you the changes before deploying
-5. **Important**: Tell Claude about any manual edits you make to `app.html` — Claude won't know about them otherwise
+5. **Important**: Tell Claude about any manual edits you make to `demo.html` / `index.html` — Claude won't know about them otherwise
 
 #### If you're technical (direct editing)
 1. Read `Reference Files/ARCHITECTURE_REFERENCE.md` sections 1–4 first (essential background)
-2. Edit `app.html` directly in a text editor
+2. Edit `demo.html` (keep `index.html` in sync by copying `demo.html` over it after the change)
 3. After any changes:
-   - Verify JS parses: `node -c app.html` or extract `<script>` and run `new Function(code)`
+   - Verify JS parses: extract `<script>` from `demo.html` and run `new Function(code)`
    - Verify CSS braces are balanced: count `{` and `}` in `<style>` — must end at 0
    - Bump the version number: change `APP_VERSION = 'X.Y.MMDDYY'` to today's date
+   - Copy `demo.html` to `index.html` so Pages stays current
 4. Test locally in a browser before committing
 5. **Commit message**: Describe WHAT changed and WHY (not just "fix" or "update")
 6. Tell Riley about the change if he's not the one who made it (so he can update `Dev_Notes.md`)
@@ -46,19 +47,19 @@ You're inheriting the Wave / **mmWave** moderator checklist (see `README.md` for
 
 ### How to deploy
 
-1. Verify the app works locally (open `app.html` in a browser, test on iOS and Android if possible)
-2. Copy `app.html` to `index.html` (GitHub Pages serves `index.html` by default)
-3. Commit both files to the `main` branch of the GitHub repo (location TBD by Riley)
-4. GitHub Pages will auto-deploy within ~30 seconds
-5. Test the live version at the GitHub Pages URL (also TBD by Riley)
+1. Verify the app works locally (open `demo.html` or `index.html` in a browser, test on iOS and Android if possible)
+2. Make sure `index.html` matches `demo.html` (copy `demo.html` over `index.html` if you edited the working copy)
+3. Commit both files to the `main` branch of `https://github.com/RileyRobertson-Centific/Wave-Checklist-Beta.git`
+4. GitHub Pages will auto-deploy within ~30 seconds once Pages is enabled (**Settings → Pages**, branch `main`, folder `/`)
+5. Test the live version at `https://RileyRobertson-Centific.github.io/Wave-Checklist-Beta/`
 
 #### Recurring maintenance tasks
 
 ##### Local testing (until SharePoint is live)
-- Open `app.html` in a browser. Demo logins (amber **Demo Version Logins** banner): `moderator` (checklist — all seven placeholder sessions, one per day Aug 23–29; the two sessions before Aug 25 are already completed), `admin` (dashboard). Legacy stand-ins `riley.robertson` and `david.kang` still work. Each moderator should only see their own sessions. If the list looks stale, sign out or use a private window (`wave_session_v26_`).
+- Open `demo.html` or `index.html` in a browser. Demo logins (amber **Demo Version Logins** banner): `moderator` (checklist — all seven placeholder sessions, one per day Aug 23–29; the two sessions before Aug 25 are already completed), `admin` (dashboard). Legacy stand-ins `riley.robertson` and `david.kang` still work. Each moderator should only see their own sessions. If the list looks stale, sign out or use a private window (`wave_session_v26_`).
 
 ##### App content & workflow
-- **Update session steps**: If the data-collection protocol changes, update the session steps in the `SESSIONS` array and redeploy `app.html`. Test thoroughly before deploying.
+- **Update session steps**: If the data-collection protocol changes, update the session steps in the HTML file and keep `demo.html` / `index.html` mirrored. Test thoroughly before deploying.
 - **Update reminders**: If safety guidelines or best practices change, update the "Key Reminders" section in the menu panel and redeploy. Menu order is: placeholder page links (Checklist / Project Updates / Guidelines / Troubleshooting), Sign out, demo-only Reset app, then reminders and Latest Update. Reset app keeps the user signed in and restores placeholder checklist progress. The four page links are proof-of-concept only and do not navigate yet. The signed-in username is in the header bar, not the menu.
 - **Update Latest Update**: Replace the current menu card (New SSDs, Aug 24, 2026) with the newest project update and redeploy.
 - **Reference media updates**: If clips/GIFs need to be updated or added, upload to SharePoint Document Library and update ReferenceMedia list with new URLs.
@@ -71,11 +72,11 @@ You're inheriting the Wave / **mmWave** moderator checklist (see `README.md` for
 - **Power Automate flow monitoring**: Check PA admin dashboard monthly for quota usage. If hitting limits, may need to archive old sessions.
 
 #### Version control
-- **Git history**: Keep `app.html` in Git. Easy to roll back if a change breaks something.
+- **Git history**: Keep `demo.html` and `index.html` in Git. Easy to roll back if a change breaks something.
 - **Version number bumping**: Update `APP_VERSION` constant (format: `MAJOR.MINOR.MMDDYY`) with every code change.
 
 #### Users & access
-- **Login credentials**: Username only, no passwords. Production: Moderators SharePoint list + `active=true`. Current skeleton: `PLACEHOLDER_MODERATORS` in `app.html`.
+- **Login credentials**: Username only, no passwords. Production: Moderators SharePoint list + `active=true`. Current skeleton: `PLACEHOLDER_MODERATORS` in `demo.html` / `index.html`.
 - **Admin access**: Usernames `admin` and `wave.admin` (`role: admin` in `PLACEHOLDER_MODERATORS`). Dashboard is demo data. Production: add admins to the Moderators list with an admin role — not implemented against SharePoint yet.
 
 #### Monitoring
@@ -105,11 +106,11 @@ The SessionLog is append-only and immutable. Every step completion creates a new
 - Change the meaning of existing event types (e.g., "completed" must always mean the same thing)
 
 ### Power Automate flow URLs
-These URLs are hardcoded in `app.html`. If a flow is regenerated, the URL changes and the app silently stops syncing.
+These URLs are hardcoded in `demo.html` / `index.html`. If a flow is regenerated, the URL changes and the app silently stops syncing.
 
 **If a flow URL changes**:
 1. Get the new URL from Power Automate
-2. Find the matching constant in `app.html` (e.g., `SESSIONLOG_PA_WRITE_URL`)
+2. Find the matching constant in `demo.html` / `index.html` (e.g., `SESSIONLOG_PA_WRITE_URL`)
 3. Update it
 4. Bump version number
 5. Redeploy
@@ -187,7 +188,7 @@ Microsoft 365 has limits on Power Automate API calls. With 200+ sessions, could 
 SessionLog is the source of truth for QA. Every step is logged with timestamp. QA team can cross-reference SessionLog against recorded video to catch protocol violations. Don't lose this data.
 
 ### Code comments are spec
-Comments in `app.html` explain *why* decisions were made, not just *what* they do. They're part of the specification. Read them before making changes.
+Comments in `demo.html` / `index.html` explain *why* decisions were made, not just *what* they do. They're part of the specification. Read them before making changes.
 
 ### Testing checklist
 Before declaring any change done:
@@ -271,7 +272,7 @@ Before declaring any change done:
   1. Open browser console (`F12`), look for network errors or JS errors
   2. Check Power Automate flow status in PA admin (is flow enabled? did it trigger?)
   3. Verify Sessions list has data in SharePoint
-- **Fix**: Debug PA flow, check flow URL in `app.html`, test flow manually, bump version, redeploy.
+- **Fix**: Debug PA flow, check flow URL in `demo.html` / `index.html`, test flow manually, bump version, redeploy.
 
 ### Steps aren't logging (data not appearing in SessionLog)
 - **This is critical**. If SessionLog isn't getting data, audit trail is broken and QA can't review.

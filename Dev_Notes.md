@@ -19,8 +19,8 @@ Project Wave Checklist App Test/
 ├── Changelog.md                       [Version history and why]
 ├── Team_Handoff.md                    [For humans maintaining the project]
 │
-├── app.html                           [Single-file app: HTML + CSS + JS — this is the working product]
-├── index.html                         [Not created yet — copy of app.html for GitHub Pages when we deploy]
+├── demo.html                          [Working copy of the single-file app during the client demo]
+├── index.html                         [Mirrored copy of demo.html — GitHub Pages homepage]
 ├── Session Checklist.xlsx             [Protocol source for Session Checklist copy]
 │
 └── Reference Files/
@@ -50,10 +50,10 @@ Project Wave Checklist App Test/
 ## Current state
 
 ### Version
-**0.2.082426** (`APP_VERSION` in `app.html`). See `Changelog.md`.
+**0.2.082426** (`APP_VERSION` in `demo.html` / `index.html`). See `Changelog.md`.
 
 ### Shipped (local-only skeleton)
-- [x] Frontend skeleton in `app.html` (Kilo tokens, login, app shell, menu, theme toggle, mobile layout)
+- [x] Frontend skeleton in `demo.html` / `index.html` (Kilo tokens, login, app shell, menu, theme toggle, mobile layout)
 - [x] Sidebar: **Your Assigned Sessions**, date/time, type chip, participant short name, phase dots; completed sessions show a full-width pink **completed** pill. Desktop collapse-to-rail control (remembered).
 - [x] Session detail: three phases — **Device Prep**, **Session Checklist**, **Post-Session**. Notes + Complete session always visible on Post-Session; Notes are required (helper: “Please describe how the session went and note anything out of the ordinary”); button disabled until `sessionComplete()` and notes are non-empty.
 - [x] Nested Session Checklist: protocol from `Session Checklist.xlsx`; title-only items on the main list (greet/IDs, NDA, **Claim new Task in Feather**, participant orientation, Hydra intake); sequentially unlocked T1 → A1 → A2 → M1 with protocol labels (Walking and tracking / Walking with Pose Transitions / Static presence and actions / Mixed actions and gestures); six detailed checks under **Before Recording** / **After Recording** (headers + helper notes, not steps); desktop two-pane view and mobile drill-in
@@ -75,11 +75,11 @@ Project Wave Checklist App Test/
 - Live admin metrics from SharePoint (UI exists; data is demo)
 - Power Automate flows (URLs still empty)
 - SharePoint Lists
-- `index.html` / GitHub Pages deploy
+- GitHub Pages (enable in repo Settings; `index.html` is the homepage). Until the demo is locked, keep `demo.html` and `index.html` mirrored.
 - Clearing leftover demo logins / placeholder roster before real users
 
 ### How to run locally
-Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` (dashboard). If the list looks stale, sign out or use a private window — storage key is currently `wave_session_v26_`.
+Open `demo.html` or `index.html` in a browser. Amber banner: `moderator` (checklist) and `admin` (dashboard). If the list looks stale, sign out or use a private window — storage key is currently `wave_session_v26_`. Until the demo is finalized, edit `demo.html` and copy it to `index.html` so they stay identical.
 
 ---
 
@@ -101,7 +101,7 @@ Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` 
   - [ ] Read flows for each table (return all rows as JSON)
   - [ ] Write flow for SessionLog (append only, no updates)
   - [ ] Write flow for Sessions (update status, useable_minutes)
-  - [ ] Get flow URLs, wire into `app.html` constants
+  - [ ] Get flow URLs, wire into `demo.html` / `index.html` constants
 
 **Frontend skeleton:**
 - [x] Create `app.html` from Kilo patterns:
@@ -115,7 +115,7 @@ Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` 
 #### Week 2: Content + admin basics
 
 **Workflow definition:**
-- [x] Device Prep checklist (6 steps + condition notes) — landed in `app.html`
+- [x] Device Prep checklist (6 steps + condition notes) — landed in `demo.html` / `index.html`
 - [x] Session Checklist (greet → NDA/consent → explain/rehearse → Hydra M1 / A1 / A2 / T1); greet/explain wording still differs by session type
 - [x] Post-Session checklist (Hydra ingestion while on X5 Wi-Fi, finish Feather metadata and mark task Completed, TAR upload, pack/return)
 - [ ] Identify reference media needs (clips/GIFs moderators will need)
@@ -189,7 +189,7 @@ Open `app.html` in a browser. Amber banner: `moderator` (checklist) and `admin` 
 **Decision**: Build as one `.html` file with inline CSS and JavaScript. No framework, no build pipeline.
 
 **Why**: 
-- Deployment is trivial (rename to `index.html`, push to GitHub Pages)
+- Deployment is trivial (keep `index.html` mirrored, push to GitHub Pages)
 - No dependencies, no build step
 - Fast loading on mobile devices in field
 - Proven by Kilo for moderator apps
@@ -292,7 +292,7 @@ Flat phases (Device Prep and Post-Session) still use their existing simple step 
 ---
 
 ### Demo admin dashboard (Kilo KPI pattern)
-**Decision**: Admin view is a read-only dashboard in the same `app.html`. KPIs follow Kilo (large numbers, site/type/day bars, moderator table). No Chart.js — CSS bars only, to stay zero-dependency.
+**Decision**: Admin view is a read-only dashboard in the same HTML file. KPIs follow Kilo (large numbers, site/type/day bars, moderator table). No Chart.js — CSS bars only, to stay zero-dependency.
 
 **Why**: Leadership needs a progress surface now for design review. Live SessionLog queries come later; `placeholderAdminStats()` is explicitly labeled demo data.
 
@@ -359,7 +359,7 @@ Participants are the ten names from Riley’s `fake_contacts2.csv`, shown as fir
 - **Diagnostic console logs**. `console.log('[App] ...')` at decision points so bug reports can be self-diagnosed.
 
 ### Manual edits
-If you make a direct edit to `app.html` (not through Claude), **mention it next time** — Claude has no way to know about it otherwise. This prevents Claude from undoing your changes or conflicting with them.
+If you make a direct edit to `demo.html` / `index.html` (not through Claude), **mention it next time** — Claude has no way to know about it otherwise. This prevents Claude from undoing your changes or conflicting with them. Until the demo is locked, copy `demo.html` to `index.html` after edits.
 
 ---
 
@@ -370,7 +370,7 @@ When closing a session, if you've made progress:
 - [ ] Update `Dev_Notes.md` → "Current state" section (what shipped, what's in progress)
 - [ ] Update `Dev_Notes.md` → "To-do list" (check off completed items)
 - [ ] Create or update `Changelog.md` with the version number and changes
-- [ ] If you changed the app.html significantly, add a note to `Dev_Notes.md` → "Recent decisions" (context for next session)
+- [ ] If you changed the HTML app significantly, add a note to `Dev_Notes.md` → "Recent decisions" (context for next session)
 
 This way, the next session can pick up without re-explaining everything.
 

@@ -4,16 +4,16 @@
 
 Project Wave (on-screen brand for now: **mmWave**) is a data-collection moderator app plus an admin dashboard for tracking video collection toward a 100-hour target. Moderators use a Kilo-style checklist to work through assigned sessions. Admins see progress toward that target (demo metrics until SharePoint is wired).
 
-The working copy is a single file, `app.html`. SharePoint Lists and Power Automate are the intended backend; they are not wired yet, so the UI runs on local placeholder data.
+The working copy is a single-file HTML app. Until the demo is finalized, **`demo.html` and `index.html` stay mirrored** (`index.html` is what GitHub Pages serves). After that, work only on `index.html`. SharePoint Lists and Power Automate are the intended backend; they are not wired yet, so the UI runs on local placeholder data.
 
-**Moderator app (in `app.html` today):**
+**Moderator app (in `demo.html` / `index.html` today):**
 - Sign in with a username (no password). Client demo: `moderator`
 - Sidebar of **assigned** sessions only (not a global “today” list); can collapse on desktop
 - Session detail with phased checklists (Device Prep / Session Checklist / Post-Session)
 - Step ticks saved locally; writes to SessionLog when flows are wired
 - Menu: placeholder page links (Checklist, Project Updates, Guidelines, Troubleshooting), sign out, demo Reset app, reminders, Latest Update; username and theme toggle are in the nav
 
-**Admin app (in `app.html` today):**
+**Admin app (in `demo.html` / `index.html` today):**
 - Sign in as `admin` (no password)
 - Read-only Kilo-style dashboard: hours vs 100h target, sessions, sites, completion rate, breakdowns, moderator table
 - Figures are **demo stand-in data** until SessionLog is live
@@ -31,8 +31,8 @@ The working copy is a single file, `app.html`. SharePoint Lists and Power Automa
 | `Changelog.md` | Version-by-version history of changes and why | Anyone curious about project evolution |
 | `Team_Handoff.md` | How to maintain/modify the app without the original owner | Human teammates inheriting this project |
 | `Reference Files/` | Orbit architecture, design system, team guidelines, Kilo UI reference | Anyone writing or extending the app |
-| `app.html` | The single-file moderator app (HTML + CSS + JS) | Local testing and the future deploy target |
-| `index.html` | Not created yet — GitHub Pages copy of `app.html` when we deploy | Deployed version |
+| `demo.html` | Single-file moderator app (working copy during the demo) | Local testing |
+| `index.html` | Mirrored copy of `demo.html` for GitHub Pages | Deployed version |
 | `Session Checklist.xlsx` | Protocol source used for Session Checklist copy | Content owners / future copy updates |
 
 ---
@@ -40,7 +40,7 @@ The working copy is a single file, `app.html`. SharePoint Lists and Power Automa
 ## How the app is used
 
 ### For Moderators (current local build)
-1. Open `app.html` in a browser
+1. Open `demo.html` or `index.html` in a browser
 2. Sign in as `moderator` (amber demo banner). All seven placeholder sessions appear, one per day (Aug 23–29); the two sessions before Aug 25 are already completed
 3. See **Your Assigned Sessions** in the sidebar
 4. Open a session, work through Device Prep → Session Checklist → Post-Session, then Complete session (button enables when all steps are done and notes are filled)
@@ -49,7 +49,7 @@ The working copy is a single file, `app.html`. SharePoint Lists and Power Automa
 **Typical flow**: Sign in → Assigned sessions → Open session → Tick steps → Mark complete → Repeat
 
 ### For Project Leadership (Admin view)
-1. Open `app.html`, sign in as `admin`
+1. Open `demo.html` or `index.html`, sign in as `admin`
 2. Review collection progress (hours vs 100-hour target, sessions, sites, moderator table)
 3. No data entry — monitoring only. Numbers are demo until the backend is wired.
 
@@ -81,7 +81,7 @@ The working copy is a single file, `app.html`. SharePoint Lists and Power Automa
 | **I need to fix a bug or add a feature** | `Dev_Notes.md` → `ARCHITECTURE_REFERENCE.md` → then the code | Dev_Notes has recent context; Architecture covers patterns you'll need |
 | **I'm taking over this project from someone else** | `Team_Handoff.md` | Written for you specifically — how to maintain it |
 | **I need the full history of what changed** | `Changelog.md` | Each version documents why changes were made |
-| **I'm writing code and need to understand the current state** | `Dev_Notes.md` → **look at `state` object** in app.html | Dev_Notes tells you what's shipped, what's in progress, and why certain decisions were made |
+| **I'm writing code and need to understand the current state** | `Dev_Notes.md` → **look at `state` object** in `demo.html` / `index.html` | Dev_Notes tells you what's shipped, what's in progress, and why certain decisions were made |
 | **I want to know about architectural patterns (buttons, auth, sync, etc.)** | `Reference Files/ARCHITECTURE_REFERENCE.md` | Covers design system, components, state management, backend patterns — all inherited from Project Orbit |
 
 ---
