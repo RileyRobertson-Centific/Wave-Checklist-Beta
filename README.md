@@ -18,7 +18,7 @@ The working copy is a single-file HTML app. Until the demo is finalized, **`demo
 - Read-only Kilo-style dashboard: hours vs 100h target, sessions, sites, completion rate, breakdowns, moderator table
 - Figures are **demo stand-in data** until SessionLog is live
 
-**Scope**: Mobile-first, also usable on tablet and desktop. Vanilla HTML/CSS/JS, GitHub Pages when we deploy.
+**Scope**: Mobile-first, also usable on tablet and desktop. Vanilla HTML/CSS/JS, deployed on GitHub Pages.
 
 ---
 
@@ -100,7 +100,8 @@ If you're reopening this project in a new Claude chat:
 ## Version and status
 
 **Current version**: `0.2.082426` — details in `Changelog.md`  
-**Status**: Client-demo moderator UI with placeholder data; backend not wired. Details in `Dev_Notes.md`.
+**Status**: Client-demo moderator UI with placeholder data; backend not wired. Live demo: https://RileyRobertson-Centific.github.io/Wave-Checklist-Beta/  
+Details in `Dev_Notes.md`.
 
 For deployment instructions, see `Team_Handoff.md` → "Maintaining the application."
 

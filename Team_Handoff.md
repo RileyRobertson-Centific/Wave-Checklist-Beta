@@ -50,7 +50,7 @@ You're inheriting the Wave / **mmWave** moderator checklist (see `README.md` for
 1. Verify the app works locally (open `demo.html` or `index.html` in a browser, test on iOS and Android if possible)
 2. Make sure `index.html` matches `demo.html` (copy `demo.html` over `index.html` if you edited the working copy)
 3. Commit both files to the `main` branch of `https://github.com/RileyRobertson-Centific/Wave-Checklist-Beta.git`
-4. GitHub Pages will auto-deploy within ~30 seconds once Pages is enabled (**Settings → Pages**, branch `main`, folder `/`)
+4. GitHub Pages deploys from `main` / `/` (already enabled)
 5. Test the live version at `https://RileyRobertson-Centific.github.io/Wave-Checklist-Beta/`
 
 #### Recurring maintenance tasks
@@ -213,7 +213,7 @@ Before declaring any change done:
   - [ ] SessionLog write
   - [ ] Sessions update (status/useable_minutes)
   - [ ] Moderators read
-- [ ] **Set up GitHub repo** for version control
+- [x] **Set up GitHub repo** for version control (`https://github.com/RileyRobertson-Centific/Wave-Checklist-Beta.git`)
 - [x] **Build `app.html` skeleton**:
   - [x] Copy from Kilo Task Tracker.html (structure/tokens)
   - [x] Add login screen
@@ -226,15 +226,15 @@ Before declaring any change done:
 - [ ] **Define reference media**: What clips/GIFs needed, where stored, upload to SharePoint
 - [ ] **Write reminders + troubleshooting**: For menu panel
 - [ ] **Populate ReferenceMedia table**: Link clips/GIFs to session steps
-- [ ] **Customize `app.html`**: Insert actual session steps, reference media, reminders
-- [ ] **Build admin dashboard**: Progress view (hours collected, target, active sites/moderators)
+- [x] **Customize `demo.html` / `index.html`**: Demo protocol copy is in the HTML (Device Prep, Session Checklist, Post-Session). Still open: reference media and real reminders.
+- [x] **Build admin dashboard**: Progress view (hours collected, target, active sites/moderators) — demo stats until SharePoint is live
 - [ ] **Test on real iPhones + Android phones** in field (not just desktop)
 
 ### Week 3 (Critical) — final + deploy
 - [ ] **Full end-to-end testing**: Login → see sessions → complete → verify admin dashboard
 - [ ] **Fix bugs from testing**
 - [ ] **Brief moderator team**: How to use app, what each step means, how to handle errors
-- [ ] **Deploy to GitHub Pages**
+- [x] **Deploy to GitHub Pages** (`https://RileyRobertson-Centific.github.io/Wave-Checklist-Beta/`)
 - [ ] **Verify data is flowing correctly**: Check SharePoint Lists, SessionLog populated, admin dashboard updating
 
 ### Before using in production

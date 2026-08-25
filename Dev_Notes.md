@@ -67,7 +67,7 @@ Project Wave Checklist App Test/
 - [ ] Menu reminders are still placeholder copy
 
 ### In Progress
-- Iterating the moderator UI for a client demo (Riley, this Cursor session). Backend not started.
+- Client demo is live on GitHub Pages. Iterate UI against that URL. Backend not started.
 
 ### Not yet started
 - Real reminders & troubleshooting
@@ -75,11 +75,11 @@ Project Wave Checklist App Test/
 - Live admin metrics from SharePoint (UI exists; data is demo)
 - Power Automate flows (URLs still empty)
 - SharePoint Lists
-- GitHub Pages (enable in repo Settings; `index.html` is the homepage). Until the demo is locked, keep `demo.html` and `index.html` mirrored.
 - Clearing leftover demo logins / placeholder roster before real users
+- Drop `demo.html` and work only on `index.html` after the demo is locked
 
 ### How to run locally
-Open `demo.html` or `index.html` in a browser. Amber banner: `moderator` (checklist) and `admin` (dashboard). If the list looks stale, sign out or use a private window — storage key is currently `wave_session_v26_`. Until the demo is finalized, edit `demo.html` and copy it to `index.html` so they stay identical.
+Open `demo.html` or `index.html` in a browser, or the live demo at https://RileyRobertson-Centific.github.io/Wave-Checklist-Beta/. Amber banner: `moderator` (checklist) and `admin` (dashboard). If the list looks stale, sign out or use a private window — storage key is currently `wave_session_v26_`. Until the demo is finalized, edit `demo.html` and copy it to `index.html` so they stay identical.
 
 ---
 
@@ -128,7 +128,7 @@ Open `demo.html` or `index.html` in a browser. Amber banner: `moderator` (checkl
 - [x] Build menu panel (reminders, troubleshooting table, settings)
 - [x] Add session completion form (notes required; Complete session gated on all steps + notes)
 - [ ] Test on iPhone + Android
-- [ ] Version bump to 0.2.MMDDYY
+- [x] Version bump to 0.2.MMDDYY (`0.2.082426`)
 
 **Admin dashboard (basic):**
 - [x] Create admin login view (`admin` / `wave.admin`, `role: admin`)
@@ -142,7 +142,7 @@ Open `demo.html` or `index.html` in a browser. Amber banner: `moderator` (checkl
 - [ ] Fix bugs from testing
 - [ ] Populate all reference media
 - [ ] Brief moderator team on workflow
-- [ ] Deploy to GitHub Pages
+- [x] Deploy to GitHub Pages (`https://RileyRobertson-Centific.github.io/Wave-Checklist-Beta/`; source branch `main`)
 - [ ] Version bump to 1.0.MMDDYY
 
 ### Post-release (if time/scope allows)

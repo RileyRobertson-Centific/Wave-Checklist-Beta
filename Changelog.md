@@ -20,6 +20,8 @@ All notable changes to Project Wave are documented here. The version scheme is `
 - Scenario titles include protocol labels: T1 Walking and tracking, A1 Walking with Pose Transitions, A2 Static presence and actions, M1 Mixed actions and gestures.
 - Post-Session: first step is **Complete ingestion Hydra while still connected to X5 Wi-Fi**; metadata step is **Finish metadata entry in Feather and mark task as Completed**; last step is **Return and sign in equipment**. Notes are required (helper: “Please describe how the session went and note anything out of the ordinary”). Complete session stays disabled until every step is done and notes are filled.
 - Working file renamed `app.html` → `demo.html`. `index.html` is a mirrored copy for GitHub Pages; keep both in sync until the demo is finalized, then work only on `index.html`.
+- GitHub Pages is on (`main` / `/`). Live demo: https://RileyRobertson-Centific.github.io/Wave-Checklist-Beta/
+- localStorage key is `wave_session_v26_` so cached checklists pick up the current schema.
 
 ---
 
